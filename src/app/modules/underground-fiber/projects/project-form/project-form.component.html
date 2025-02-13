@@ -1,46 +1,258 @@
-<!-- Envie todo o "cartão" do formulário dentro de um formGroup -->
-<form [formGroup]="projectForm">
-    <div class="bg-card dark:bg-gray-900 p-4 rounded mb-4">
-        <h2 class="text-lg font-semibold mb-6">Project Informations</h2>
-
-        <!-- Project Name -->
-        <div class="mb-4">
-            <label class="block font-medium mb-1">Project Name</label>
-            <input
-                    class="w-full rounded border px-3 py-2 bg-transparent
-                     text-gray-800 dark:bg-gray-700 dark:text-gray-100"
-                    type="text"
-                    formControlName="name"
-            />
-        </div>
-
-        <!-- Map -->
-        <div class="mb-4">
-            <label class="block font-medium mb-1">Map</label>
-            <input
-                    class="w-full rounded border px-3 py-2 bg-transparent
-                     text-gray-800 dark:bg-gray-700 dark:text-gray-100"
-                    type="text"
-                    formControlName="map"
-            />
-        </div>
-
-        <!-- Price Composition (select) -->
-        <div class="mb-4">
-            <label class="block font-medium mb-1">Price Composition</label>
-            <select
-                    class="w-full rounded border px-3 py-2 bg-transparent
-                     text-gray-800 dark:bg-gray-700 dark:text-gray-100"
-                    formControlName="priceCompositionTypeId"
-            >
-                <option value="">-- Select an option --</option>
-
-                @for (pc of priceCompositionTypes; track trackByFn($index, pc)) {
-                    <option [value]="pc.id">
-                        {{ pc.name }}
-                    </option>
-                }
-            </select>
-        </div>
+<div class="px-6 flex flex-col w-full flex-auto min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div class="flex justify-end mt-3.5 mr-3.5">
+        <button type="button"
+                class="rounded bg-green-500 px-6 py-2 text-white font-medium hover:bg-green-600"
+                (click)="createProject()">
+            {{ isEditMode ? "Update Project" : "Create Project" }}
+        </button>
     </div>
-</form>
+
+    <form [formGroup]="projectForm" class="w-full h-full flex flex-col">
+
+        <div class="mx-4 my-4">
+            <mat-accordion class="w-full space-y-2">
+
+                <!-- Accordion: Project Informations -->
+                <mat-expansion-panel class="rounded shadow-sm bg-white dark:bg-gray-800" [expanded]="true">
+                    <mat-expansion-panel-header class="border-b border-gray-300 dark:border-gray-600 py-2 min-h-0">
+                        <mat-panel-title>
+                            Project Informations
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="px-6 py-4">
+                        <!-- Linha 1: Project Name, Map e Contractor -->
+                        <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
+                            <!-- Project Name -->
+                            <div class="flex-1 md:w-4/12">
+                                <label class="block font-medium mb-1">Project Name</label>
+                                <input
+                                        type="text"
+                                        formControlName="name"
+                                        class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                />
+                            </div>
+                            <!-- Map -->
+                            <div class="flex-1 md:w-4/12 mt-4 md:mt-0">
+                                <label class="block font-medium mb-1">Map</label>
+                                <input
+                                        type="text"
+                                        formControlName="map"
+                                        class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                />
+                            </div>
+                            <!-- Contractor -->
+                            <div class="flex-1 md:w-4/12 mt-4 md:mt-0">
+                                <label class="block font-medium mb-1">Contractor</label>
+                                <select
+                                        formControlName="client"
+                                        class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                >
+                                    <option value="">-- Select Contractor --</option>
+                                    @for (obj of clients; track trackByObj($index, obj)) {
+                                        <option [value]="obj.id">
+                                            {{ obj.name }}
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Linha 2: Price Composition, Start Date, Net Term e Project Status -->
+                        <div class="flex flex-col md:flex-row md:space-x-4">
+                            <!-- Price Composition -->
+                            <div class="flex-1 md:w-3/12">
+                                <label class="block font-medium mb-1">Price Composition</label>
+                                <select
+                                        formControlName="priceCompositionTypeId"
+                                        class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                >
+                                    <option value="">-- Select an option --</option>
+                                    @for (obj of priceCompositionTypes; track trackByObj($index, obj)) {
+                                        <option [value]="obj.id">
+                                            {{ obj.name }}
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+                            <!-- Start Date -->
+                            <div class="flex-1 md:w-3/12 mt-4 md:mt-0">
+                                <label class="block font-medium mb-1">Start Date</label>
+                                <input
+                                        type="date"
+                                        formControlName="startDate"
+                                        class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                />
+                            </div>
+                            <!-- Net Term -->
+                            <div class="flex-1 md:w-3/12 mt-4 md:mt-0">
+                                <label class="block font-medium mb-1">Net Term</label>
+                                <input
+                                        type="number"
+                                        formControlName="netTerm"
+                                        class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                />
+                            </div>
+                            <!-- Project Status -->
+                            <div class="flex-1 md:w-3/12 mt-4 md:mt-0">
+                                <label class="block font-medium mb-1">Project Status</label>
+                                <select
+                                        formControlName="projectStatus"
+                                        class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                >
+                                    <option value="ACTIVE">ACTIVE</option>
+                                    <option value="INACTIVE">INACTIVE</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+
+                <!-- Accordion: Project Codes -->
+                <mat-expansion-panel style="margin-bottom: 24px !important;" class="rounded shadow-sm bg-white dark:bg-gray-800">
+                    <mat-expansion-panel-header class="border-b border-gray-300 dark:border-gray-600 py-2 min-h-0">
+                        <mat-panel-title class="text-base">
+                            Project Codes
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="px-6 py-4">
+
+                        <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
+                            <!-- Code -->
+                            <div class="flex-1 md:w-4/12">
+                                <label class="block font-medium mb-1">Code</label>
+                                <input
+                                        type="text"
+                                        formControlName="code"
+                                        class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                />
+                            </div>
+                            <!-- Description -->
+                            <div class="flex-1 md:w-8/12 mt-4 md:mt-0">
+                                <label class="block font-medium mb-1">Description</label>
+                                <input
+                                        type="text"
+                                        formControlName="description"
+                                        class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
+                            <!-- Price -->
+                            <div class="flex-1 md:w-4/12">
+                                <label class="block font-medium mb-1">Price</label>
+                                <input
+                                        type="number"
+                                        step="0.01"
+                                        formControlName="price"
+                                        class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                />
+                            </div>
+                            <!-- Task Type -->
+                            <div class="flex-1 md:w-4/12 mt-4 md:mt-0">
+                                <label class="block font-medium mb-1">Task Type</label>
+                                <select
+                                        formControlName="taskType"
+                                        class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                >
+                                    <option value="">-- Select Task Type --</option>
+                                    @for (obj of taskTypes; track trackByIndex($index, obj)) {
+                                        <option [value]="obj.id">
+                                            {{ obj.name }}
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="flex-1 md:w-3/12 mt-4 md:mt-0 flex items-end">
+                                <button
+                                        type="button"
+                                        class="w-full rounded bg-blue-500 px-4 py-2 text-white text-sm font-medium hover:bg-blue-600"
+                                        (click)="addProjectCode()"
+                                >
+                                    Add Project Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <ng-container *ngIf="projectCodes.length > 0; else noCodes">
+                                <table class="w-full table-auto text-sm">
+                                    <thead>
+                                    <tr class="border-b">
+                                        <th class="p-2 text-left">Code</th>
+                                        <th class="p-2 text-left">Description</th>
+                                        <th class="p-2 text-left">Price</th>
+                                        <th class="p-2 text-left">Task Type</th>
+                                        <th class="p-2 text-right">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (codeObj of projectCodes; track trackByIndex($index, codeObj)) {
+                                            <tr class="border-b hover:bg-gray-100 dark:hover:bg-gray-700">
+                                                <td class="p-2">{{ codeObj.code }}</td>
+                                                <td class="p-2">{{ codeObj.description }}</td>
+                                                <td class="p-2">{{ codeObj.price }}</td>
+                                                <td class="p-2">{{ codeObj.taskTypeName }}</td>
+                                                <td class="p-2 text-right">
+                                                    <button
+                                                            type="button"
+                                                            class="rounded bg-red-500 px-3 py-1 text-white hover:bg-red-600"
+                                                            (click)="removeProjectCode($index)"
+                                                    >
+                                                        Remove
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </ng-container>
+                            <ng-template #noCodes>
+                                <p class="text-center text-gray-500 dark:text-gray-400">No codes added</p>
+                            </ng-template>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+
+                <!-- Accordion: Attachment -->
+                <mat-expansion-panel class="rounded shadow-sm bg-white dark:bg-gray-800">
+                    <mat-expansion-panel-header class="flex items-center justify-between border-b border-gray-300 dark:border-gray-600 py-2 min-h-0">
+                        <mat-panel-title class="text-base">
+                            Attachment
+                        </mat-panel-title>
+                        <!-- Botão "Select file" no header, justificado à direita -->
+                        <button
+                                type="button"
+                                class="rounded mr-4 bg-blue-500 px-4 py-2 text-white text-sm font-medium hover:bg-blue-600"
+                                (click)="$event.stopPropagation(); selectFile()"
+                        >
+                            Select file
+                        </button>
+                    </mat-expansion-panel-header>
+                    <div class="px-6 py-4">
+                        <!-- Lista de attachments -->
+                        <ng-container *ngIf="attachments.length > 0; else noAttachments">
+                            <div class="flex flex-wrap gap-2">
+                                @for (attachment of attachments; track trackByIndex($index, attachment)) {
+                                    <button
+                                            type="button"
+                                            class="flex items-center rounded border px-3 py-1 text-sm font-medium text-gray-800 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                            (click)="downloadAttachment(attachment)"
+                                    >
+                                        <!-- Ícone de download (pode ser um SVG ou ícone de font) -->
+                                        <span class="mr-1">📥</span>
+                                        {{ attachment.fileName }}
+                                    </button>
+                                }
+                            </div>
+                        </ng-container>
+                        <ng-template #noAttachments>
+                            <p class="text-center text-gray-500 dark:text-gray-400">No attachments added</p>
+                        </ng-template>
+                        <!-- Input de arquivo oculto -->
+                        <input type="file" multiple #fileInput class="hidden" (change)="onFileSelected($event)" />
+                    </div>
+                </mat-expansion-panel>
+
+            </mat-accordion>
+        </div>
+    </form>
+</div>

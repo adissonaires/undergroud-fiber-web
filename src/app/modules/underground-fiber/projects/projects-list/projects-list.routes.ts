@@ -10,5 +10,9 @@ export default [
     {
         path: 'create',
         component: ProjectFormComponent
+    },
+    {
+        path: ':projectId/edit',
+        component: ProjectFormComponent
     }
 ] as Route[];

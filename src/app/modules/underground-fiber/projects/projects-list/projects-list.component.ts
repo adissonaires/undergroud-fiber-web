@@ -52,9 +52,15 @@ export class ProjectsListComponent implements OnInit
     return project.id || index;
   }
 
-  openProjectForm(): void
+  openProjectFormCreate(): void
   {
     // Navega para '/projects/create'
     this._router.navigate(['create'], { relativeTo: this._activatedRoute });
+  }
+
+  openProjectFormEdit(id: number): void
+  {
+    // Navega para '/projects/create'
+    this._router.navigate([`${id}/edit`], { relativeTo: this._activatedRoute });
   }
 }

@@ -12,7 +12,7 @@
                 <!-- Botão à direita -->
                 <button
                         class="rounded bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-600"
-                        (click)="openProjectForm()"
+                        (click)="openProjectFormCreate()"
                 >
                     + Create User
                 </button>
@@ -56,6 +56,7 @@
                         </button>
                         <button
                                 class="inline-block rounded bg-yellow-500 px-3 py-2 text-sm font-medium text-white hover:bg-yellow-600 ml-2"
+                                (click)="openProjectFormEdit(project.id)"
                         >
                             Edit
                         </button>
