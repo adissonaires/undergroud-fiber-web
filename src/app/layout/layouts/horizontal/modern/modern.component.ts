@@ -39,7 +39,7 @@ import { Subject, takeUntil } from 'rxjs';
         NotificationsComponent,
         UserComponent,
         RouterOutlet,
-        QuickChatComponent,
+        // QuickChatComponent,
     ],
 })
 export class ModernLayoutComponent implements OnInit, OnDestroy {

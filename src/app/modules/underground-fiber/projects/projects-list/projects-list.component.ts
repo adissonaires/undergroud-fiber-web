@@ -7,7 +7,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 @Component({
   selector: 'app-projects-list',
   imports: [
-    NgClass,
+    // NgClass,
     FormsModule
   ],
   templateUrl: './projects-list.component.html',
