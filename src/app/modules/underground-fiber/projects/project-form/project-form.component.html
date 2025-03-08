@@ -10,7 +10,7 @@
     <form [formGroup]="projectForm" class="w-full h-full flex flex-col">
 
         <div class="mx-4 my-4">
-            <mat-accordion class="w-full space-y-2">
+            <mat-accordion class="w-full space-y-2" [multi]="true">
 
                 <!-- Accordion: Project Informations -->
                 <mat-expansion-panel class="rounded shadow-sm bg-white dark:bg-gray-800" [expanded]="true">
@@ -107,7 +107,7 @@
                 </mat-expansion-panel>
 
                 <!-- Accordion: Project Codes -->
-                <mat-expansion-panel style="margin-bottom: 24px !important;" class="rounded shadow-sm bg-white dark:bg-gray-800">
+                <mat-expansion-panel style="margin-bottom: 24px !important;" class="rounded shadow-sm bg-white dark:bg-gray-800" [expanded]="true">
                     <mat-expansion-panel-header class="border-b border-gray-300 dark:border-gray-600 py-2 min-h-0">
                         <mat-panel-title class="text-base">
                             Project Codes
@@ -213,7 +213,7 @@
                 </mat-expansion-panel>
 
                 <!-- Accordion: Attachment -->
-                <mat-expansion-panel class="rounded shadow-sm bg-white dark:bg-gray-800">
+                <mat-expansion-panel class="rounded shadow-sm bg-white dark:bg-gray-800" [expanded]="true">
                     <mat-expansion-panel-header class="flex items-center justify-between border-b border-gray-300 dark:border-gray-600 py-2 min-h-0">
                         <mat-panel-title class="text-base">
                             Attachment
