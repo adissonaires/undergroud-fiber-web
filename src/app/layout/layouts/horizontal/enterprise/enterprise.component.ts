@@ -39,7 +39,7 @@ import { Subject, takeUntil } from 'rxjs';
         UserComponent,
         FuseHorizontalNavigationComponent,
         RouterOutlet,
-        QuickChatComponent,
+        // QuickChatComponent,
     ],
 })
 export class EnterpriseLayoutComponent implements OnInit, OnDestroy {

@@ -1,12 +1,11 @@
-/* eslint-disable */
-import { FuseNavigationItem } from '@fuse/components/navigation';
+import {FuseNavigationItem} from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
-        id   : 'projects',
+        id: 'projects',
         title: 'Projects',
-        type : 'basic',
-        icon : 'heroicons_outline:clipboard-document-check',
+        type: 'basic',
+        icon: 'heroicons_outline:clipboard-document-check',
         link: '/projects',
     },
     {
@@ -17,44 +16,44 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link: '/kanban',
     },
     {
-        id   : 'invoice',
+        id: 'invoice',
         title: 'Invoice',
-        type : 'basic',
-        icon : 'heroicons_outline:calculator',
-        link : '/invoice'
+        type: 'basic',
+        icon: 'heroicons_outline:calculator',
+        link: '/invoice'
     },
     {
-        id   : 'users',
+        id: 'users',
         title: 'Users',
-        type : 'basic',
-        icon : 'heroicons_outline:user',
-        link : '/users'
+        type: 'basic',
+        icon: 'heroicons_outline:user',
+        link: '/users'
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
-        id   : 'example',
+        id: 'example',
         title: 'Example',
-        type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
-        link : '/example'
+        type: 'basic',
+        icon: 'heroicons_outline:chart-pie',
+        link: '/example'
     }
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
     {
-        id   : 'example',
+        id: 'example',
         title: 'Example',
-        type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
-        link : '/example'
+        type: 'basic',
+        icon: 'heroicons_outline:chart-pie',
+        link: '/example'
     }
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
     {
-        id   : 'example',
+        id: 'example',
         title: 'Example',
-        type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
-        link : '/example'
+        type: 'basic',
+        icon: 'heroicons_outline:chart-pie',
+        link: '/example'
     }
 ];

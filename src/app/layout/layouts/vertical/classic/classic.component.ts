@@ -37,7 +37,7 @@ import { Subject, takeUntil } from 'rxjs';
         NotificationsComponent,
         UserComponent,
         RouterOutlet,
-        QuickChatComponent,
+        // QuickChatComponent,
     ],
 })
 export class ClassicLayoutComponent implements OnInit, OnDestroy {

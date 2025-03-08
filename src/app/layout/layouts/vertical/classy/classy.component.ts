@@ -40,7 +40,7 @@ import {AuthUtils} from "../../../../core/auth/auth.utils";
         ShortcutsComponent,
         MessagesComponent,
         RouterOutlet,
-        QuickChatComponent,
+        // QuickChatComponent,
     ],
     standalone: true
 })

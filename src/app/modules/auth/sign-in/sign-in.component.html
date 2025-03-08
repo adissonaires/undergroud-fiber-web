@@ -6,35 +6,35 @@
     >
         <div class="mx-auto w-full max-w-80 sm:mx-0 sm:w-80">
             <!-- Logo -->
-            <div class="w-12">
-                <img src="images/logo/logo.svg" />
-            </div>
+<!--            <div class="mt-8 text-3xl font-extrabold leading-tight tracking-tight">-->
+<!--&lt;!&ndash;                <img src="images/logo/logo.svg" />&ndash;&gt;-->
+<!--                <h1>Underground</h1>-->
+<!--            </div>-->
 
             <!-- Title -->
             <div
-                class="mt-8 text-4xl font-extrabold leading-tight tracking-tight"
-            >
+                class="mt-8 text-4xl font-extrabold leading-tight tracking-tight">
                 Sign in
             </div>
-            <div class="mt-0.5 flex items-baseline font-medium">
-                <div>Don't have an account?</div>
-                <a
-                    class="ml-1 text-primary-500 hover:underline"
-                    [routerLink]="['/sign-up']"
-                    >Sign up
-                </a>
-            </div>
+<!--            <div class="mt-0.5 flex items-baseline font-medium">-->
+<!--                <div>Don't have an account?</div>-->
+<!--                <a-->
+<!--                    class="ml-1 text-primary-500 hover:underline"-->
+<!--                    [routerLink]="['/sign-up']"-->
+<!--                    >Sign up-->
+<!--                </a>-->
+<!--            </div>-->
 
-            <!-- Alert -->
-            <fuse-alert
-                class="mt-8"
-                [appearance]="'outline'"
-                [showIcon]="false"
-                [type]="'info'"
-            >
-                You are browsing <strong>Fuse Demo</strong>. Click on the "Sign
-                in" button to access the Demo and Documentation.
-            </fuse-alert>
+<!--            &lt;!&ndash; Alert &ndash;&gt;-->
+<!--            <fuse-alert-->
+<!--                class="mt-8"-->
+<!--                [appearance]="'outline'"-->
+<!--                [showIcon]="false"-->
+<!--                [type]="'info'"-->
+<!--            >-->
+<!--                You are browsing <strong>Fuse Demo</strong>. Click on the "Sign-->
+<!--                in" button to access the Demo and Documentation.-->
+<!--            </fuse-alert>-->
 
             <!-- Alert -->
             @if (showAlert) {
@@ -101,23 +101,23 @@
                     <mat-error> Password is required </mat-error>
                 </mat-form-field>
 
-                <!-- Actions -->
-                <div
-                    class="mt-1.5 inline-flex w-full items-center justify-between"
-                >
-                    <mat-checkbox
-                        class="-ml-2"
-                        [color]="'primary'"
-                        [formControlName]="'rememberMe'"
-                    >
-                        Remember me
-                    </mat-checkbox>
-                    <a
-                        class="text-md font-medium text-primary-500 hover:underline"
-                        [routerLink]="['/forgot-password']"
-                        >Forgot password?
-                    </a>
-                </div>
+<!--                &lt;!&ndash; Actions &ndash;&gt;-->
+<!--                <div-->
+<!--                    class="mt-1.5 inline-flex w-full items-center justify-between"-->
+<!--                >-->
+<!--                    <mat-checkbox-->
+<!--                        class="-ml-2"-->
+<!--                        [color]="'primary'"-->
+<!--                        [formControlName]="'rememberMe'"-->
+<!--                    >-->
+<!--                        Remember me-->
+<!--                    </mat-checkbox>-->
+<!--                    <a-->
+<!--                        class="text-md font-medium text-primary-500 hover:underline"-->
+<!--                        [routerLink]="['/forgot-password']"-->
+<!--                        >Forgot password?-->
+<!--                    </a>-->
+<!--                </div>-->
 
                 <!-- Submit button -->
                 <button
@@ -138,34 +138,34 @@
                     }
                 </button>
 
-                <!-- Separator -->
-                <div class="mt-8 flex items-center">
-                    <div class="mt-px flex-auto border-t"></div>
-                    <div class="text-secondary mx-2">Or continue with</div>
-                    <div class="mt-px flex-auto border-t"></div>
-                </div>
+<!--                &lt;!&ndash; Separator &ndash;&gt;-->
+<!--                <div class="mt-8 flex items-center">-->
+<!--                    <div class="mt-px flex-auto border-t"></div>-->
+<!--                    <div class="text-secondary mx-2">Or continue with</div>-->
+<!--                    <div class="mt-px flex-auto border-t"></div>-->
+<!--                </div>-->
 
                 <!-- Single sign-on buttons -->
-                <div class="mt-8 flex items-center space-x-4">
-                    <button class="flex-auto" type="button" mat-stroked-button>
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'feather:facebook'"
-                        ></mat-icon>
-                    </button>
-                    <button class="flex-auto" type="button" mat-stroked-button>
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'feather:twitter'"
-                        ></mat-icon>
-                    </button>
-                    <button class="flex-auto" type="button" mat-stroked-button>
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'feather:github'"
-                        ></mat-icon>
-                    </button>
-                </div>
+<!--                <div class="mt-8 flex items-center space-x-4">-->
+<!--                    <button class="flex-auto" type="button" mat-stroked-button>-->
+<!--                        <mat-icon-->
+<!--                            class="icon-size-5"-->
+<!--                            [svgIcon]="'feather:facebook'"-->
+<!--                        ></mat-icon>-->
+<!--                    </button>-->
+<!--                    <button class="flex-auto" type="button" mat-stroked-button>-->
+<!--                        <mat-icon-->
+<!--                            class="icon-size-5"-->
+<!--                            [svgIcon]="'feather:twitter'"-->
+<!--                        ></mat-icon>-->
+<!--                    </button>-->
+<!--                    <button class="flex-auto" type="button" mat-stroked-button>-->
+<!--                        <mat-icon-->
+<!--                            class="icon-size-5"-->
+<!--                            [svgIcon]="'feather:github'"-->
+<!--                        ></mat-icon>-->
+<!--                    </button>-->
+<!--                </div>-->
             </form>
         </div>
     </div>
@@ -197,36 +197,36 @@
         <div class="relative z-10 w-full max-w-2xl">
             <div class="text-7xl font-bold leading-none text-gray-100">
                 <div>Welcome to</div>
-                <div>our community</div>
+                <div>Underground</div>
             </div>
-            <div class="mt-6 text-lg leading-6 tracking-tight text-gray-400">
-                Fuse helps developers to build organized and well coded
-                dashboards full of beautiful and rich modules. Join us and start
-                building your application today.
-            </div>
-            <div class="mt-8 flex items-center">
-                <div class="flex flex-0 items-center -space-x-1.5">
-                    <img
-                        class="h-10 w-10 flex-0 rounded-full object-cover ring-4 ring-gray-800 ring-offset-1 ring-offset-gray-800"
-                        src="images/avatars/female-18.jpg"
-                    />
-                    <img
-                        class="h-10 w-10 flex-0 rounded-full object-cover ring-4 ring-gray-800 ring-offset-1 ring-offset-gray-800"
-                        src="images/avatars/female-11.jpg"
-                    />
-                    <img
-                        class="h-10 w-10 flex-0 rounded-full object-cover ring-4 ring-gray-800 ring-offset-1 ring-offset-gray-800"
-                        src="images/avatars/male-09.jpg"
-                    />
-                    <img
-                        class="h-10 w-10 flex-0 rounded-full object-cover ring-4 ring-gray-800 ring-offset-1 ring-offset-gray-800"
-                        src="images/avatars/male-16.jpg"
-                    />
-                </div>
-                <div class="ml-4 font-medium tracking-tight text-gray-400">
-                    More than 17k people joined us, it's your turn
-                </div>
-            </div>
+<!--            <div class="mt-6 text-lg leading-6 tracking-tight text-gray-400">-->
+<!--                Fuse helps developers to build organized and well coded-->
+<!--                dashboards full of beautiful and rich modules. Join us and start-->
+<!--                building your application today.-->
+<!--            </div>-->
+<!--            <div class="mt-8 flex items-center">-->
+<!--                <div class="flex flex-0 items-center -space-x-1.5">-->
+<!--                    <img-->
+<!--                        class="h-10 w-10 flex-0 rounded-full object-cover ring-4 ring-gray-800 ring-offset-1 ring-offset-gray-800"-->
+<!--                        src="images/avatars/female-18.jpg"-->
+<!--                    />-->
+<!--                    <img-->
+<!--                        class="h-10 w-10 flex-0 rounded-full object-cover ring-4 ring-gray-800 ring-offset-1 ring-offset-gray-800"-->
+<!--                        src="images/avatars/female-11.jpg"-->
+<!--                    />-->
+<!--                    <img-->
+<!--                        class="h-10 w-10 flex-0 rounded-full object-cover ring-4 ring-gray-800 ring-offset-1 ring-offset-gray-800"-->
+<!--                        src="images/avatars/male-09.jpg"-->
+<!--                    />-->
+<!--                    <img-->
+<!--                        class="h-10 w-10 flex-0 rounded-full object-cover ring-4 ring-gray-800 ring-offset-1 ring-offset-gray-800"-->
+<!--                        src="images/avatars/male-16.jpg"-->
+<!--                    />-->
+<!--                </div>-->
+<!--                <div class="ml-4 font-medium tracking-tight text-gray-400">-->
+<!--                    More than 17k people joined us, it's your turn-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
     </div>
 </div>
