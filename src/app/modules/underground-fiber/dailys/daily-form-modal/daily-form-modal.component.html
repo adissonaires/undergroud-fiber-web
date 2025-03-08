@@ -1,0 +1,342 @@
+<div class="p-0 max-h-screen w-full overflow-auto">
+
+    <!-- Header normal (não sticky) -->
+    <div class="daily-modal-header flex h-16 items-center justify-between bg-primary px-6 text-on-primary">
+        <div class="text-lg font-medium">Create Daily</div>
+        <div class="flex items-center space-x-2">
+            <!-- Botão Save -->
+            <button
+                    class="rounded bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-600"
+                    (click)="saveDaily()"
+            >
+                Save
+            </button>
+            <!-- Botão Close -->
+            <button mat-icon-button (click)="close()" [tabIndex]="-1">
+                <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <!-- Formulário com acordeão -->
+    <form
+            class="w-full space-y-6 p-6 sm:p-8 dark:bg-gray-900"
+            [formGroup]="dailyForm"
+    >
+        <mat-accordion [multi]="true" class="w-full dark:bg-transparent">
+            <!-- Acordeão: Daily Informations -->
+            <mat-expansion-panel [expanded]="true" class="rounded shadow-sm">
+                <mat-expansion-panel-header class="border-b border-gray-300 dark:border-gray-600 py-2 min-h-0">
+                    <mat-panel-title>Daily Informations</mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="px-6 py-4 space-y-4">
+                    <!-- Linha 1: Map e Pipe -->
+                    <div class="flex flex-col md:flex-row md:space-x-4">
+                        <!-- Map -->
+                        <div class="flex-1">
+                            <label class="block font-medium mb-1">Map</label>
+                            <input
+                                    type="text"
+                                    formControlName="map"
+                                    class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                            />
+                        </div>
+                        <!-- Pipe -->
+                        <div class="flex-1 mt-4 md:mt-0">
+                            <label class="block font-medium mb-1">Pipe</label>
+                            <select
+                                    formControlName="pipe"
+                                    class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                            >
+                                <option value="">-- Select an option --</option>
+                                @for (obj of pipeOptions; track trackByFn($index, obj)) {
+                                    <option [value]="obj">{{ obj }}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Linha 2: Qty Footage, Qty Drill, Qty Missil -->
+                    <div class="flex flex-col md:flex-row md:space-x-4">
+                        <div class="flex-1">
+                            <label class="block font-medium mb-1">Qty Footage</label>
+                            <input
+                                    type="number"
+                                    formControlName="qtyFootage"
+                                    class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                            />
+                        </div>
+                        <div class="flex-1 mt-4 md:mt-0">
+                            <label class="block font-medium mb-1">Qty Drill</label>
+                            <input
+                                    type="number"
+                                    formControlName="qtyDrill"
+                                    class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                            />
+                        </div>
+                        <div class="flex-1 mt-4 md:mt-0">
+                            <label class="block font-medium mb-1">Qty Missil</label>
+                            <input
+                                    type="number"
+                                    formControlName="qtyMissil"
+                                    class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Linha 3: Date Check-in e Date Check-out -->
+                    <div class="flex flex-col md:flex-row md:space-x-4">
+                        <div class="flex-1">
+                            <label class="block font-medium mb-1">Date Check-in</label>
+                            <input
+                                    type="datetime-local"
+                                    formControlName="dateCheckIn"
+                                    class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                            />
+                        </div>
+                        <div class="flex-1 mt-4 md:mt-0">
+                            <label class="block font-medium mb-1">Date Check-out</label>
+                            <input
+                                    type="datetime-local"
+                                    formControlName="dateCheckOut"
+                                    class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Linha 4: Address -->
+                    <div>
+                        <label class="block font-medium mb-1">Address</label>
+                        <textarea
+                                formControlName="address"
+                                rows="3"
+                                class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                        ></textarea>
+                    </div>
+
+                    <!-- Linha 5: Observation -->
+                    <div>
+                        <label class="block font-medium mb-1">Observation</label>
+                        <textarea
+                                formControlName="observation"
+                                rows="3"
+                                class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                        ></textarea>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+
+            <!-- Acordeão: Itens -->
+            <mat-expansion-panel [expanded]="true" class="rounded shadow-sm">
+                <mat-expansion-panel-header class="border-b border-gray-300 dark:border-gray-600 py-2 min-h-0">
+                    <mat-panel-title>Daily Itens</mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="px-6 py-4">
+                    <!-- Linha 1: Code e Description -->
+                    <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
+                        <!-- Code (30%) -->
+                        <div class="flex-none" style="width: 30%;">
+                            <label class="block font-medium mb-1">Code</label>
+                            <select
+                                    formControlName="codeItem"
+                                    class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                            >
+                                <option value="">-- Select an option --</option>
+                                @for (obj of codeOptions; track trackByFn($index, obj)) {
+                                    <option [value]="obj.code">{{ obj.code }}</option>
+                                }
+                            </select>
+                        </div>
+                        <!-- Description (70%, disabled) -->
+                        <div class="flex-none" style="width: 70%;">
+                            <label class="block font-medium mb-1">Description</label>
+                            <input
+                                    type="text"
+                                    formControlName="descriptionItem"
+                                    disabled
+                                    class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Linha 2: Qty Item e Task Type -->
+                    <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
+                        <!-- Qty Item (60%) -->
+                        <div class="flex-none" style="width: 60%;">
+                            <label class="block font-medium mb-1">Qty Item</label>
+                            <input
+                                    type="number"
+                                    formControlName="qtyItem"
+                                    class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                            />
+                        </div>
+                        <!-- Task Type (40%, disabled) -->
+                        <div class="flex-none" style="width: 40%;">
+                            <label class="block font-medium mb-1">Task Type</label>
+                            <input
+                                    type="text"
+                                    [value]="getTaskTypeName(dailyForm.get('taskTypeId')?.value)"
+                                    disabled
+                                    formControlName="taskTypeId"
+                                    class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Botão para adicionar o item -->
+                    <div class="flex justify-end">
+                        <button
+                                type="button"
+                                class="rounded bg-blue-500 px-4 py-2 text-white text-sm font-medium hover:bg-blue-600"
+                                (click)="addDailyItem()"
+                        >
+                            Add Item
+                        </button>
+                    </div>
+
+                    <!-- Tabela de itens adicionados -->
+                    <div class="mt-4">
+                        <ng-container *ngIf="dailyItems.length > 0; else noItems">
+                            <table class="w-full table-auto text-sm">
+                                <thead>
+                                <tr class="border-b">
+                                    <th class="p-2 text-left">Code</th>
+                                    <th class="p-2 text-left">Description</th>
+                                    <th class="p-2 text-left">Qty Item</th>
+                                    <th class="p-2 text-left">Task Type</th>
+                                    <th class="p-2 text-right">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    @for (item of dailyItems; track trackByFn($index, item)) {
+                                        <tr class="border-b hover:bg-gray-100 dark:hover:bg-gray-700">
+                                            <td class="p-2">{{ item.code }}</td>
+                                            <td class="p-2">{{ item.description }}</td>
+                                            <td class="p-2">{{ item.qtyItem }}</td>
+                                            <td class="p-2">{{ getTaskTypeName(item.taskTypeId) }}</td>
+                                            <td class="p-2 text-right">
+                                                <button
+                                                        type="button"
+                                                        class="rounded bg-red-500 px-3 py-1 text-white hover:bg-red-600"
+                                                        (click)="removeDailyItem($index)"
+                                                >
+                                                    Remove
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </ng-container>
+                        <ng-template #noItems>
+                            <p class="text-center text-gray-500 dark:text-gray-400">
+                                No items added
+                            </p>
+                        </ng-template>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+
+            <!-- Acordeão: Files -->
+            <mat-expansion-panel  class="rounded shadow-sm bg-white dark:bg-gray-800" [expanded]="true">
+                <mat-expansion-panel-header class="flex items-center justify-between border-b border-gray-300 dark:border-gray-600 py-2 min-h-0">
+                    <mat-panel-title class="text-base">
+                        Attachment
+                    </mat-panel-title>
+                    <!-- Botão "Select file" no header, justificado à direita -->
+                    <button
+                            type="button"
+                            class="rounded mr-4 bg-blue-500 px-4 py-2 text-white text-sm font-medium hover:bg-blue-600"
+                            (click)="$event.stopPropagation(); selectFile()"
+                    >
+                        Select file
+                    </button>
+                </mat-expansion-panel-header>
+                <div class="px-6 py-4">
+                    <!-- Lista de attachments -->
+                    <ng-container *ngIf="attachments.length > 0; else noAttachments">
+                        <div class="flex flex-wrap gap-2">
+                            @for (attachment of attachments; track trackByIndex($index, attachment)) {
+                                <button
+                                        type="button"
+                                        class="flex items-center rounded border px-3 py-1 text-sm font-medium text-gray-800 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                        (click)="downloadAttachment(attachment)"
+                                >
+                                    <!-- Ícone de download (pode ser um SVG ou ícone de font) -->
+                                    <span class="mr-1">📥</span>
+                                    {{ attachment.fileName }}
+                                </button>
+                            }
+                        </div>
+                    </ng-container>
+                    <ng-template #noAttachments>
+                        <p class="text-center text-gray-500 dark:text-gray-400">No attachments added</p>
+                    </ng-template>
+                    <!-- Input de arquivo oculto -->
+                    <input type="file" multiple #fileInput class="hidden" (change)="onFileSelected($event)" />
+                </div>
+            </mat-expansion-panel>
+
+            <!-- Acordeão: Group Information -->
+            <mat-expansion-panel [expanded]="true" class="rounded shadow-sm">
+                <mat-expansion-panel-header class="border-b border-gray-300 dark:border-gray-600 py-2 min-h-0">
+                    <mat-panel-title>
+                        Group Information
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="px-6 py-4 space-y-4">
+                    <!-- Linha 1: Group Name, Supervisor e Data -->
+                    <div class="flex flex-col md:flex-row md:space-x-4">
+                        <!-- Group Name -->
+                        <div class="flex-1">
+                            <label class="block font-medium mb-1">Group Name</label>
+                            <input type="text" formControlName="groupName"
+                                   class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100" />
+                        </div>
+                        <!-- Supervisor -->
+                        <div class="flex-1 mt-4 md:mt-0">
+                            <label class="block font-medium mb-1">Supervisor</label>
+                            <input type="text" formControlName="supervisor"
+                                   class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100" />
+                        </div>
+                        <!-- Data -->
+                        <div class="flex-1 mt-4 md:mt-0">
+                            <label class="block font-medium mb-1">Data</label>
+                            <input type="date" formControlName="data"
+                                   class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100" />
+                        </div>
+                    </div>
+                    <!-- Linha 2: Status Card, Project e SubContractor -->
+                    <div class="flex flex-col md:flex-row md:space-x-4">
+                        <!-- Status Card -->
+                        <div class="flex-1 md:w-4/12">
+                            <label class="block font-medium mb-1">Status Card</label>
+                            <select formControlName="statusCard"
+                                    class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100">
+                                <option value="">-- Select an option --</option>
+                                <option value="DOING">DOING</option>
+                                <option value="DONE">DONE</option>
+                            </select>
+                        </div>
+                        <!-- Project (desabilitado) -->
+                        <div class="flex-1 md:w-4/12 mt-4 md:mt-0">
+                            <label class="block font-medium mb-1">Project</label>
+                            <input type="text" formControlName="project" disabled
+                                   class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100" />
+                        </div>
+
+                        <!-- SubContractor (desabilitado) -->
+                        <div class="flex-1 md:w-4/12 mt-4 md:mt-0">
+                            <label class="block font-medium mb-1">SubContractor</label>
+                            <input type="text" formControlName="subcontractor" disabled
+                                   class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100" />
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+
+        </mat-accordion>
+    </form>
+</div>
