@@ -6,7 +6,7 @@ export const appRoutes: Route[] = [
 
     {path: '', pathMatch: 'full', redirectTo: 'projects'},
     {path: 'signed-in-redirect', pathMatch: 'full', redirectTo: 'projects'},
-
+    {path: 'reset-password', pathMatch: 'full', redirectTo: 'reset-password'},
     // Auth routes for guests
     {
         path: '',
