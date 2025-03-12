@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {CurrencyPipe, DatePipe, formatCurrency} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
 import {MatIconButton} from "@angular/material/button";
-import html2pdf from 'html2pdf.js';
+// import html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'app-invoice-preview',
@@ -50,7 +50,7 @@ export class InvoicePreviewComponent implements OnInit {
       pagebreak:    { mode: ['avoid-all'] },
     };
 
-    html2pdf().from(data).set(opt).save();
+    // html2pdf().from(data).set(opt).save();
   }
 
   protected readonly formatCurrency = formatCurrency;

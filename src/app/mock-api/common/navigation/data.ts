@@ -9,6 +9,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link: '/companies',
     },
     {
+        id: 'client',
+        title: 'Clients',
+        type: 'basic',
+        icon: 'heroicons_outline:clipboard-document-check',
+        link: '/clients',
+    },
+    {
         id: 'projects',
         title: 'Projects',
         type: 'basic',

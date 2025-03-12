@@ -11,6 +11,13 @@
                 {{ board?.title }}
             </h2>
         </div>
+        <div>
+            <button
+                    class="rounded bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-600"
+                    (click)="openDailyModal('create')">
+                + Add Daily
+            </button>
+        </div>
     </div>
     <div *ngIf="board">
         <!-- Main -->
@@ -181,11 +188,11 @@
                                     }
                                 </div>
 
-                                <div class="flex justify-end p-4">
-                                    <button mat-raised-button color="primary" (click)="openDailyModal('create')">
-                                        Add Daily
-                                    </button>
-                                </div>
+<!--                                <div class="flex justify-end p-4">-->
+<!--                                    <button mat-raised-button color="primary" (click)="openDailyModal('create')">-->
+<!--                                        Add Daily-->
+<!--                                    </button>-->
+<!--                                </div>-->
                             </div>
                         </div>
                     }

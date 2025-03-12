@@ -1,7 +1,6 @@
 import {Route} from '@angular/router';
 import {initialDataResolver} from 'app/app.resolvers';
 import {LayoutComponent} from 'app/layout/layout.component';
-import {AuthGuard} from "./core/auth/guards/auth.guard";
 
 export const appRoutes: Route[] = [
 
@@ -63,6 +62,9 @@ export const appRoutes: Route[] = [
             {
                 path: 'companies',
                 loadChildren: () => import('app/modules/underground-fiber/companies/company-list/company-list.routes')
+            }, {
+                path: 'clients',
+                loadChildren: () => import('app/modules/underground-fiber/clients/client-list/client-list.routes')
             }, {
                 path: 'projects',
                 loadChildren: () => import('app/modules/underground-fiber/projects/projects-list/projects-list.routes')

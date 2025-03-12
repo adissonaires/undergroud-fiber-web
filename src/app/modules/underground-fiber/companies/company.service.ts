@@ -15,7 +15,6 @@ export interface Company {
 @Injectable({providedIn: 'root'})
 export class CompanyService {
     private _companiesUrl = `${environment.apiUrl}/companies`;
-    private _uploadCompaniesImageUrl = `${environment.apiUrl}/images/project/upload`;
 
     constructor(private _httpClient: HttpClient) {
     }
