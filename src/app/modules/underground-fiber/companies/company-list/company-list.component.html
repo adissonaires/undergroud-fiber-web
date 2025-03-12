@@ -1,0 +1,54 @@
+<div class="pr-6 pl-6 flex min-w-0 flex-auto flex-col bg-card dark:bg-gray-900">
+    <table class="w-full table-auto text-gray-600 dark:text-gray-200">
+        <thead>
+        <tr class="border-b">
+            <th class="p-2 w-1/12 text-left">Status</th>
+            <th class="p-2 w-8/12 text-left">Company</th>
+            <th class=" p-2 w-3/12 text-right">
+                <button class="rounded bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-600"
+                        (click)="openCompanyFormCreate()">
+                    + Create Company
+                </button>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+            @for (company of companies; track trackByFn($index, company)) {
+                <tr class="
+                          border-b
+                          hover:bg-gray-100
+                          dark:hover:bg-gray-700
+                          dark:text-gray-200">
+                    <td class="pl-6 w-1/12 text-left">
+                        @if (company.status === 'ACTIVE') {
+                            <span class="inline-block h-3 w-3 rounded-full bg-green-500"></span>
+                        } @else {
+                            <span class="inline-block h-3 w-3 rounded-full bg-red-500"></span>
+                        }
+                    </td>
+
+                    <td class="p-2 w-8/12 text-left">
+                        <div class="font-medium text-md">
+                            {{ company.name }}
+                        </div>
+                    </td>
+
+                    <td class="p-2 w-3/12 text-right">
+                        <button class="inline-block rounded bg-blue-500 px-3 py-2 text-sm font-medium text-white hover:bg-yellow-600 ml-2"
+                                (click)="openFormCreateUser(company.id)">
+                            + User
+                        </button>
+                        <button class="inline-block rounded bg-yellow-500 px-3 py-2 text-sm font-medium text-white hover:bg-yellow-600 ml-2"
+                                (click)="openCompanyFormEdit(company.id)">
+                            Edit
+                        </button>
+                        <button class="inline-block rounded bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700 ml-2"
+                                (click)="deleteCompany(company.id)">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

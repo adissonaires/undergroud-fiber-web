@@ -1,6 +1,7 @@
 import {Route} from '@angular/router';
 import {initialDataResolver} from 'app/app.resolvers';
 import {LayoutComponent} from 'app/layout/layout.component';
+import {AuthGuard} from "./core/auth/guards/auth.guard";
 
 export const appRoutes: Route[] = [
 
@@ -49,20 +50,6 @@ export const appRoutes: Route[] = [
             }
         ]
     },
-
-    // Landing routes
-    {
-        path: '',
-        component: LayoutComponent,
-        data: {
-            layout: 'empty'
-        },
-        children: [
-            {path: 'home', loadChildren: () => import('app/modules/landing/home/home.routes')},
-        ]
-    },
-
-    // Admin routes
     {
         path: '',
         // canActivate: [AuthGuard],
@@ -72,28 +59,15 @@ export const appRoutes: Route[] = [
             initialData: initialDataResolver
         },
         children: [
-            {
-                path: 'example',
-                loadChildren: () => import('app/modules/underground-fiber/projects/projects-list/projects-list.routes')
-            },
             {path: 'users', loadChildren: () => import('app/modules/underground-fiber/users/users/users.routes')},
             {
+                path: 'companies',
+                loadChildren: () => import('app/modules/underground-fiber/companies/company-list/company-list.routes')
+            }, {
                 path: 'projects',
                 loadChildren: () => import('app/modules/underground-fiber/projects/projects-list/projects-list.routes')
             },
             {path: 'kanban', loadChildren: () => import('app/modules/underground-fiber/kanban/kanban.routes')},
         ]
-    },
-    // {
-    //     path: '',
-    //     canActivate: [AuthGuard],
-    //     canActivateChild: [AuthGuard],
-    //     component: LayoutComponent,
-    //     resolve: {
-    //         initialData: initialDataResolver
-    //     },
-    //     children: [
-    //         {path: 'projects', loadChildren: () => import('app/modules/underground-fiber/projects/projects.routes')},
-    //     ]
-    // }
+    }
 ];
