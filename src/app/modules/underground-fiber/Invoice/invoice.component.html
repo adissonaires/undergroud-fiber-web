@@ -1,0 +1,37 @@
+<div class="pt-3 pr-6 flex flex-col w-full flex-auto min-h-screen bg-card dark:bg-gray-900">
+    <!-- Tabela de Invoices -->
+    <div class="overflow-auto">
+        <table class="min-w-full table-auto">
+            <thead>
+            <tr class="text-center">
+                <th class="border-b p-2">Number</th>
+                <th class="border-b p-2">Project Name</th>
+                <th class="border-b p-2">Date</th>
+                <th class="border-b p-2 text-right">
+                    <button class="rounded bg-blue-500 px-4 py-2 text-white font-medium hover:bg-blue-600"
+                            (click)="createInvoice()">
+                        + Create Invoice
+                    </button>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+                @for (invoice of invoices; track trackByFn($index, invoice)) {
+                    <tr class="border-b hover:bg-gray-100 dark:hover:bg-gray-700 text-center">
+                        <td class="p-2">{{ invoice.number }}</td>
+                        <td class="p-2">{{ invoice.projectName }}</td>
+                        <td class="p-2">{{ invoice.date | date: 'mediumDate' }}</td>
+                        <td class="p-2 text-right">
+                            <button class="rounded bg-indigo-500 px-3 py-1 text-white hover:bg-indigo-600 mr-2"
+                                    (click)="previewInvoice(invoice)">Preview</button>
+                            <button class="rounded bg-yellow-500 px-3 py-1 text-white hover:bg-yellow-600 mr-2"
+                                    (click)="editInvoice(invoice)">Edit</button>
+                            <button class="rounded bg-red-500 px-3 py-1 text-white hover:bg-red-600"
+                                    (click)="deleteInvoice(invoice)">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

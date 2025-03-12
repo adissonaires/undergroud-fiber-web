@@ -46,7 +46,6 @@ import {MatDialog} from "@angular/material/dialog";
     DatePipe,
     CdkScrollable,
     MatButton,
-    MatAnchor,
     NgClass,
     MatIconButton,
     MatMenuItem,
@@ -375,8 +374,6 @@ export class KanbanDailiesComponent implements OnInit, OnDestroy {
     console.log("newStatusCard", newStatusCard)
     console.log("movedCard", movedCard)
 
-    // Update the cards
-    // this._scrumboardService.updateCards(updated).subscribe();
   }
 
   /**
@@ -413,46 +410,37 @@ export class KanbanDailiesComponent implements OnInit, OnDestroy {
    * @private
    */
   private _calculatePositions(event: CdkDragDrop<any[]>): any[] {
-    // Get the items
     let items = event.container.data;
     const currentItem = items[event.currentIndex];
     const prevItem = items[event.currentIndex - 1] || null;
     const nextItem = items[event.currentIndex + 1] || null;
 
-    // If the item moved to the top...
     if (!prevItem) {
-      // If the item moved to an empty container
       if (!nextItem) {
         currentItem.position = this._positionStep;
       } else {
         currentItem.position = nextItem.position / 2;
       }
     }
-    // If the item moved to the bottom...
     else if (!nextItem) {
       currentItem.position = prevItem.position + this._positionStep;
     }
-    // If the item moved in between other items...
     else {
       currentItem.position = (prevItem.position + nextItem.position) / 2;
     }
 
-    // Check if all item positions need to be updated
     if (
         !Number.isInteger(currentItem.position) ||
         currentItem.position >= this._maxPosition
     ) {
-      // Re-calculate all orders
       items = items.map((value, index) => {
         value.position = (index + 1) * this._positionStep;
         return value;
       });
 
-      // Return items
       return items;
     }
 
-    // Return currentItem
     return [currentItem];
   }
 
@@ -464,17 +452,12 @@ export class KanbanDailiesComponent implements OnInit, OnDestroy {
       panelClass: 'daily-form-modal',
       data: {
         project: this.project
-        // projectId: this.projectId,
-        // projectName: this.project?.name,
-        // projectCodes: this.project?.projectCodes
-      } // Envie dados iniciais se necessário
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Exemplo: Adiciona a nova daily à lista de dailies e atualiza o board
         this.dailies.push(result);
-        // Recalcule doingDailies e doneDailies
         this.doingDailies = this.dailies.filter(daily => daily.statusCard && daily.statusCard.toUpperCase() === 'DOING');
         this.doneDailies = this.dailies.filter(daily => daily.statusCard && daily.statusCard.toUpperCase() === 'DONE');
         this._changeDetectorRef.markForCheck();

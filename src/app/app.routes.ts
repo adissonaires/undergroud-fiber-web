@@ -82,6 +82,7 @@ export const appRoutes: Route[] = [
                 loadChildren: () => import('app/modules/underground-fiber/projects/projects-list/projects-list.routes')
             },
             {path: 'kanban', loadChildren: () => import('app/modules/underground-fiber/kanban/kanban.routes')},
+            {path: 'invoice', loadChildren: () => import('app/modules/underground-fiber/Invoice/invoice.routes')},
         ]
     },
     // {

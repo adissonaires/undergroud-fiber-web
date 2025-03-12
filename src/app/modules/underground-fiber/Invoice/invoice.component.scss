@@ -1,0 +1,4 @@
+.invoice-form-modal .mat-dialog-container {
+  max-height: 90vh;    // Evita que o modal ocupe mais que 90% da altura da tela
+  overflow-y: auto;
+}

@@ -1,0 +1,273 @@
+.folha-A4 {
+  width: 210mm;
+  min-height: 296mm;
+  margin: auto;
+  background: #fff;
+  padding: 1.5cm;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  flex: 1;
+  position: relative; // Para que os elementos com position:absolute se refiram a este contêiner
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  padding: 0!important;
+}
+
+.invoice-modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  text-indent: 0;
+}
+
+h1 {
+  color: #435369;
+  font-family: Calibri, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 12.5pt; // 7.35pt x 1.7
+}
+
+p {
+  color: black;
+  font-family: "Franklin Gothic Book", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: none;
+  font-size: 7pt; // 4.12pt x 1.7
+  margin: 0pt;
+}
+
+.s1 {
+  color: #435369;
+  font-family: "Franklin Gothic Book", sans-serif;
+  font-size: 7pt; // 4.12pt x 1.7
+}
+
+.h2 {
+  color: #435369;
+  font-family: Calibri, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 11pt; // 4.12pt x 1.7
+}
+
+.s2 {
+  color: #1E487C;
+  font-family: "Franklin Gothic Book", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: none;
+  font-size: 8.5pt; // 3.24pt x 1.7
+}
+
+.s3 {
+  color: #FFF;
+  font-family: "Franklin Gothic Book", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: none;
+  font-size: 8.5pt; // 3.24pt x 1.7
+}
+
+.s4 {
+  color: #1E487C;
+  font-family: Calibri, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: none;
+  font-size: 10pt; // 3.53pt x 1.7
+}
+
+.s5 {
+  color: #1E487C;
+  font-family: Calibri, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: none;
+  font-size: 12pt; // 5.29pt x 1.7
+}
+
+.s6 {
+  color: #1E487C;
+  font-family: Calibri, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: none;
+  font-size: 11pt; // 4.12pt x 1.7
+}
+
+.s7 {
+  color: #1E487C;
+  font-family: Calibri, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 11pt; // 4.12pt x 1.7
+}
+
+.s8 {
+  color: #435369;
+  font-family: Calibri, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 11pt; // 4.12pt x 1.7
+}
+
+.s9 {
+  color: #FFF;
+  font-family: Calibri, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 11pt; // 4.12pt x 1.7
+}
+
+.s10 {
+  color: #FFF;
+  font-family: Calibri, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 12pt; // 4.71pt x 1.7
+}
+
+table,
+tbody {
+  vertical-align: top;
+  overflow: visible;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: #435369 solid 3px; // 1.76px x 1.7
+}
+
+.textbox-vc {
+  background: #435369;
+  min-height: 31.4pt; // 18.47pt x 1.7
+  width: 47.3pt; // 27.82pt x 1.7
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.textbox-invoice {
+  background: #435369;
+  min-height: 31.4pt; // 18.47pt x 1.7
+  width: 110.8pt; // 65.18pt x 1.7
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.textbox-vc p,
+.textbox-invoice p {
+  margin: 0;
+  color: #FFF;
+  font-family: Calibri, sans-serif;
+  font-size: 20pt; // 9.41pt x 1.7
+}
+
+.text-company {
+  margin: 0;
+  font-size: 20pt; // 9.41pt x 1.7
+  padding: 0 20px;
+  text-align: left;
+  flex: 1;
+}
+
+.container-infos {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px 0;
+}
+
+.invoice-left {
+  text-align: left;
+}
+
+.invoice-right {
+  text-align: left;
+  margin-right: 15px;
+}
+
+.billing-left {
+  text-align: left;
+}
+
+.billing-right {
+  text-align: left;
+  margin-right: 56px;
+}
+
+.invoice-left p,
+.invoice-right p,
+.billing-left p,
+.billing-right p {
+  margin: 0;
+}
+
+.billing-left p.break {
+  text-indent: 0;
+  text-align: left;
+  line-height: 1;
+}
+
+.tr-infos {
+  border-top: solid 1pt #A6A6A6; // 0.59pt x 1.7 ≈ 1pt
+  border-left: solid 1pt #A6A6A6;
+  border-bottom: solid 1pt #A6A6A6;
+  border-right: solid 1pt #A6A6A6;
+}
+
+.tr-dados {
+  border-top: solid 1pt #A6A6A6;
+  border-left: solid 1pt #A6A6A6;
+  border-bottom: solid 1pt #A6A6A6;
+  border-right: solid 1pt #A6A6A6;
+}
+
+.container,
+.container-fluid,
+.container-xxl,
+.container-xl,
+.container-lg,
+.container-md,
+.container-sm {
+  padding: 0 !important;
+}
+
+.text-bold {
+  font-weight: 800;
+  color: #44546a;
+  font-size: 8pt;
+}
+
+.totals-container {
+  bottom: 20px; // (10px x 1.7) ajustado para 20px conforme o original
+  text-align: center;
+  width: auto;
+  position: absolute;
+  left: 0;
+  right: 1.5cm;
+}
+
+.invoice-preview-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; // Garante que ocupe pelo menos a altura da tela
+  overflow: auto;   // Caso o conteúdo ultrapasse a tela
+}
+

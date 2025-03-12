@@ -1,0 +1,140 @@
+<div class="p-0 max-h-screen w-full overflow-auto">
+    <div class="invoice-preview-container">
+        <!-- Header com botão de fechar -->
+        <div class="invoice-modal-header flex h-16 items-center justify-between bg-primary px-6 text-on-primary">
+            <div class="text-lg font-medium">Invoice Preview</div>
+            <div class="flex items-center space-x-2">
+                <!-- Botão Save -->
+                <button
+                        class="rounded bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-600"
+                        (click)="downloadPdf()"
+                >
+                    Save
+                    <!--                    (click)="downloadPdf()"-->
+                </button>
+                <!-- Botão Close -->
+                <button mat-icon-button (click)="close()" [tabIndex]="-1">
+                    <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="mt-4 mb-9">
+            <div id="pdfContent" class="folha-A4">
+                <div class="container">
+                    <div class="textbox-vc" >
+                        <p style="margin-bottom: 10px">VC</p>
+                    </div>
+                    <h1 class="text-company" style="margin-bottom: 10px">VICAST COMMUNICATIONS, LLC</h1>
+                    <div class="textbox-invoice">
+                        <p style="margin-bottom: 10px">Invoice</p>
+                    </div>
+                </div>
+
+                <div class="container-infos" style="padding-top: 5.88px;">
+                    <div class="invoice-left">
+                        <p>10101 W 87TH ST STE 105</p>
+                        <p>Overland Park KS 66212</p>
+                        <p>Phone (913) 388 - 6002</p>
+                        <p>invoice&#64;vicastxp.com</p>
+                    </div>
+                    <div class="invoice-right">
+                        <p><span class="text-bold">INVOICE #</span> {{ this.invoicePreview?.invoiceNumber }}</p>
+                        <p><span class="text-bold">DATE</span> {{ this.invoicePreview?.invoiceDate | date:'MM/dd/yyyy' }}</p>
+                        <p><span class="text-bold">DUE TO</span> {{ this.invoicePreview?.invoiceDateDueTo | date:'MM/dd/yyyy' }}</p>
+                        <p><span class="text-bold">NET TERM</span> {{ this.invoicePreview?.projectNetTerm }} Days</p>
+                    </div>
+                </div>
+
+                <div class="container"></div>
+
+                <div class="container-infos">
+                    <div class="billing-left">
+                        <p class="break"></p>
+                        <p class="bill"><span class="text-bold">BILL TO: </span></p>
+                        <p>{{ this.invoicePreview?.clientName }}</p>
+                        <p>{{ this.invoicePreview?.clientAddress }}</p>
+                        <p>Phone {{ this.invoicePreview?.clientPhone }}</p>
+                    </div>
+                    <div class="billing-right">
+                        <p><span class="text-bold">MAP: </span>{{ this.invoicePreview?.projectMap }}</p>
+                        <p><span class="text-bold">FROM: </span>{{ this.invoicePreview?.invoiceDateWorkFrom | date:'MM/dd/yyyy' }}</p>
+                        <p><span class="text-bold">TO: </span>{{ this.invoicePreview?.invoiceDateWorkTo | date:'MM/dd/yyyy' }}</p>
+                    </div>
+                </div>
+
+                <div class="container"></div>
+
+                <p style="text-align: left;"><br /></p>
+                <p class="s2" style="text-align: left;">INSTRUCTIONS:</p>
+                <p style="text-align: left;"><br /></p>
+                <p style="text-align: left;"><br /></p>
+
+                <table style="border-collapse: collapse; width: 100%;" cellspacing="0">
+                    <thead>
+                    <tr style="height: 8pt;">
+                        <th class="tr-infos" style="background-color: #435369;">
+                            <p class="s3" style="padding-top: 1.76pt; text-align: center;margin-bottom: 10px">COD.</p>
+                        </th>
+                        <th class="tr-infos" style="background-color: #435369;">
+                            <p class="s3" style="padding-top: 1.76pt; padding-right: 0.59pt; text-align: center;margin-bottom: 10px">DESCRIPTION</p>
+                        </th>
+                        <th class="tr-infos" style="background-color: #435369;">
+                            <p class="s3" style="padding-top: 1.76pt; text-align: center;margin-bottom: 10px">QTY</p>
+                        </th>
+                        <th class="tr-infos" style="background-color: #435369;">
+                            <p class="s3" style="padding-top: 1.76pt; padding-right: 0.59pt; text-align: center;margin-bottom: 10px">UNIT PRICE</p>
+                        </th>
+                        <th class="tr-infos" style="background-color: #435369;">
+                            <p class="s3" style="padding-top: 1.76pt; padding-left: 0.59pt; padding-right: 0.59pt; text-align: center;margin-bottom: 10px">TOTAL</p>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @for (item of this.invoicePreview?.invoiceItems;let idx = $index; track trackByFn(idx, item)){
+                            <tr style="height: 9.41pt;">
+                                <td class="tr-dados" style="width: 27.65pt;">
+                                    <p class="s4" style="padding-top: 2.35pt; text-align: center;margin-bottom: 10px">{{ item.taskType || 'N/A' }}</p>
+                                </td>
+                                <td class="tr-dados" style="width: 144.12pt;">
+                                    <p class="s5" style="padding-top: 1.18pt; padding-left: 0.59pt; text-align: center;margin-bottom: 10px">{{ item.taskName }}</p>
+                                </td>
+                                <td class="tr-dados" style="width: 24.71pt;">
+                                    <p class="s6" style="padding-top: 1.76pt; text-align: center;margin-bottom: 10px">{{ item.quantity }}</p>
+                                </td>
+                                <td class="tr-dados" style="width: 28.82pt;">
+                                    <p class="s6" style="padding-top: 1.76pt; padding-left: 0.59pt; text-align: center;margin-bottom: 10px">{{ formatCurrency(item?.subRate, 'en-US', 'USD') }}</p>
+                                </td>
+                                <td class="tr-dados" style="width: 36.47pt;">
+                                    <p class="s7" style="padding-top: 1.76pt; padding-left: 0.59pt; text-align: center;margin-bottom: 10px">{{ formatCurrency(item?.total, 'en-US', 'USD') }}</p>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="totals-container">
+                    <table style="border-collapse: collapse; margin-top: 8.82pt;justify-self: right">
+                        <tbody>
+                        <tr style="height: 10pt;">
+                            <td style="width: 222.35pt; border-top: solid 1.18pt #435369; border-bottom: solid 1.18pt #435369;" rowspan="2">
+                                <p style="text-align: left;"><br /></p>
+                            </td>
+                            <td style="width: 120pt; border-top: solid 1.18pt #435369; background-color: #F1F1F1;">
+                                <p class="s8" style="padding-top: 2.94pt; padding-right: 9.41pt; text-align: right;margin-bottom: 10px">Subtotal: {{ formatCurrency(this.invoicePreview?.subTotal, 'en-US', 'U$D') }}</p>
+                            </td>
+                        </tr>
+                        <tr style="height: 10pt;">
+                            <td style="width: 140pt; border-bottom: solid 1.18pt #435369; background-color: #435369;">
+                                <p class="s9" style="padding-top: 1.18pt; padding-right: 7.65pt; text-align: right;margin-bottom: 10px">TOTAL DUE: <span class="s10">{{ formatCurrency(this.invoicePreview?.subTotal, 'en-US', 'U$D') }}</span></p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

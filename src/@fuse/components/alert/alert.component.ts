@@ -35,6 +35,7 @@ import { Subject, filter, takeUntil } from 'rxjs';
     animations: fuseAnimations,
     exportAs: 'fuseAlert',
     imports: [MatIconModule, MatButtonModule],
+    standalone: true
 })
 export class FuseAlertComponent implements OnChanges, OnInit, OnDestroy {
     /* eslint-disable @typescript-eslint/naming-convention */

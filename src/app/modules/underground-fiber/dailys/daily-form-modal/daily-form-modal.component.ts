@@ -34,8 +34,7 @@ import {Router} from "@angular/router";
     MatIcon,
     MatExpansionModule,
     CommonModule,
-    MatIconButton,
-    MatButton
+    MatIconButton
   ]
 })
 export class DailyFormModalComponent implements OnInit, OnDestroy {

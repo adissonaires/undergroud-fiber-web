@@ -1,0 +1,140 @@
+<div class="p-6 flex flex-col w-full flex-auto min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div class="flex justify-end mb-4">
+        <button
+                type="button"
+                class="rounded bg-blue-500 px-6 py-2 text-white font-medium hover:bg-blue-600"
+                (click)="saveInvoice()">
+            {{ isEditMode ? 'Update Invoice' : 'Create Invoice' }}
+        </button>
+    </div>
+
+    <form [formGroup]="invoiceForm" class="w-full flex-auto flex flex-col">
+
+        <div class="bg-card rounded shadow-sm mb-4 p-6">
+            <h2 class="text-lg font-semibold mb-4">Invoice Information</h2>
+
+            <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
+                <div class="flex-none" style="width: 30%;">
+                    <label class="block font-medium mb-1">Invoice Number</label>
+                    <input
+                            type="text"
+                            formControlName="number"
+                            class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100" />
+                </div>
+                <div class="flex-none" style="width: 16%;">
+                    <label class="block font-medium mb-1">Date Due To</label>
+                    <input
+                            type="date"
+                            formControlName="dateDueTo"
+                            class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100" />
+                </div>
+                <div class="flex-none" style="width: 16%;">
+                    <label class="block font-medium mb-1">Date</label>
+                    <input
+                            type="date"
+                            formControlName="date"
+                            class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100" />
+                </div>
+                <div class="flex-none" style="width: 16%;">
+                    <label class="block font-medium mb-1">Work Start Date</label>
+                    <input
+                            type="date"
+                            formControlName="dateWorkFrom"
+                            class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100" />
+                </div>
+                <div class="flex-none" style="width: 16%;">
+                    <label class="block font-medium mb-1">Work End Date</label>
+                    <input
+                            type="date"
+                            formControlName="dateWorkTo"
+                            class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100" />
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row md:space-x-4">
+                <div class="flex-none" style="width: 30%;">
+                    <label class="block font-medium mb-1">Project</label>
+                    <select
+                            formControlName="projectId"
+                            class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                    >
+                        <option value="">-- Select Project --</option>
+                        @for (proj of projects; track trackByFn($index, proj)) {
+                            <option [value]="proj.id">{{ proj.name }}</option>
+                        }
+                    </select>
+                </div>
+                <div class="flex-none" style="width: 30%;">
+                    <label class="block font-medium mb-1">Daily</label>
+                    <select formControlName="dailyId"
+                            class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                            [disabled]="dailyDisabled"
+                            (change)="onDailyChange($event)"
+                    >
+                        <option value="">-- Select Daily --</option>
+                        @for (daily of dailyItens; track trackByFn($index, daily)) {
+                            <option [value]="daily.id">
+                                Daily {{ daily.groupName }} - {{ daily.map }} ({{ daily.taskTypes }}) - {{ formatDateTime(daily.dateCheckIn) }}
+                            </option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-card rounded shadow-sm p-6">
+            <div class="flex flex-row justify-between">
+                <h2 class="text-lg font-semibold mb-4">Invoice Items</h2>
+                @if(isEditMode){
+                    <button
+                            type="button"
+                            class="inline-flex items-center space-x-2 rounded bg-gray-200 px-3 py-2"
+                            (click)="refreshInvoiceItems()"
+                            [ngClass]="invoiceItems.length == 0 ? '' :'hover:bg-gray-300'"
+                            [disabled]="invoiceItems.length == 0"
+                    >
+                        <mat-icon svgIcon="heroicons_outline:arrow-path" class="text-base"></mat-icon>
+                        <span class="text-base font-medium">Invoice Itens</span>
+                    </button>
+                }
+            </div>
+
+
+            @if (invoiceItems.length > 0) {
+                <table class="w-full table-auto text-sm">
+                    <thead>
+                    <tr class="border-b">
+                        <th class="p-2 text-left">Task Name</th>
+                        <th class="p-2 text-left">Quantity</th>
+                        <th class="p-2 text-left">Price</th>
+                        <th class="p-2 text-left">Total</th>
+                        <th class="p-2 text-right">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @for (item of invoiceItems; track trackByFn($index, item)) {
+                            <tr class="border-b hover:bg-gray-100 dark:hover:bg-gray-700">
+                                <td class="p-2">{{ item.taskName }}</td>
+                                <td class="p-2">{{ item.quantity }}</td>
+                                <td class="p-2">${{ item.subRate }}</td>
+                                <td class="p-2">{{ item.total | currency }}</td>
+                                <td class="p-2 text-right">
+                                    <button type="button"
+                                            class="rounded bg-red-500 px-3 py-1 text-white hover:bg-red-600"
+                                            (click)="removeItem(); _cdr.markForCheck(); this.updateProjectFieldState()">
+                                        Remove
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            } @else {
+            <p class="text-center text-gray-500 dark:text-gray-400">
+                No items added yet.
+            </p>
+            }
+        </div>
+
+    </form>
+</div>

@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Project} from "../projects/projects.service";
 
 
@@ -37,40 +37,29 @@ export class DailiesService {
 
 
     private _deiliesUrl = `${environment.apiUrl}/dailies`;
+    private _projects = `${environment.apiUrl}/projects`;
     private _uploadProjectsImageUrl = `${environment.apiUrl}/images/daily/upload`;
 
 
 
     getAllDeliesByProjectId(id:number): Observable<any>
     {
-        const token = localStorage.getItem('token') || '';
-        const headers = new HttpHeaders({
-            'Authorization': `Bearer ${token}`
-        });
+        return this._httpClient.get<any>(`${this._deiliesUrl}/project/${id}`);
+    }
 
-        return this._httpClient.get<any>(`${this._deiliesUrl}/project/${id}`, { headers });
+    getAllDailiesWithoutInvoicesLinked(id:number): Observable<any>
+    {
+        return this._httpClient.get<any>(`${this._projects}/${id}/dailiesWithoutInvoices`);
     }
 
     updateDailyStatusCard(dailyId: number, statusCard: any): Observable<any> {
-
-        const token = localStorage.getItem('token') || '';
-        const headers = new HttpHeaders({
-            'Authorization': `Bearer ${token}`
-        });
-
         const url = `${this._deiliesUrl}/${dailyId}/status-card`;
-        return this._httpClient.put(url, statusCard, { headers });
+        return this._httpClient.put(url, statusCard);
     }
 
     createDaily(dailie: any): Observable<any>
     {
-        const token = localStorage.getItem('token');
-
-        const headers = new HttpHeaders({
-            'Authorization': `Bearer ${token}`
-        });
-
-        return this._httpClient.post<Project>(this._deiliesUrl, dailie, { headers });
+        return this._httpClient.post<Project>(this._deiliesUrl, dailie);
     }
 
     uploadDailyImages(dailyId: number, files: File[]): Observable<any> {
@@ -80,12 +69,7 @@ export class DailiesService {
         });
         formData.append('dailyId', dailyId.toString());
 
-        const token = localStorage.getItem('token');
-
-        const headers = new HttpHeaders({
-            'Authorization': `Bearer ${token}`
-        });
-        return this._httpClient.post<any>(this._uploadProjectsImageUrl, formData, { headers, responseType: 'text' as 'json'}, );
+        return this._httpClient.post<any>(this._uploadProjectsImageUrl, formData, { responseType: 'text' as 'json'}, );
     }
 
 }
