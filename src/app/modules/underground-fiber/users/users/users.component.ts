@@ -1,14 +1,15 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {NgClass} from "@angular/common";
 import {User, UsersService} from "../users.service";
-import {AuthUtils} from "../../../../core/auth/auth.utils";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {Company, CompanyService} from "../../companies/company.service";
 
 @Component({
   selector: 'app-users',
   imports: [
     NgClass,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './users.component.html',
   standalone: true,
@@ -19,6 +20,7 @@ import {FormsModule} from "@angular/forms";
 export class UsersComponent implements OnInit
 {
   users: User[] = [];
+  companies: Company[] = [];
 
   // Controle do modal
   showModal: boolean = false;
@@ -34,16 +36,19 @@ export class UsersComponent implements OnInit
     name: '',
     email: '',
     profile: 'USER',
+    companyId: null,
     status: 'ACTIVE'
   };
 
 
   constructor(private _usersService: UsersService,
+              private _companyService: CompanyService,
               private _cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void
   {
     this.loadUsers();
+    this.loadCompanies();
   }
 
   /**
@@ -57,6 +62,14 @@ export class UsersComponent implements OnInit
     });
   }
 
+  loadCompanies(): void
+  {
+    this._companyService.getAllCompanies().subscribe((response: Company[]) => {
+      this.companies = response;
+      this._cdr.markForCheck();
+    });
+  }
+
   openModalForCreate(): void
   {
     // Modo criação
@@ -66,6 +79,7 @@ export class UsersComponent implements OnInit
       name: '',
       email: '',
       profile: 'USER',
+      companyId: null,
       status: 'ACTIVE'
     };
 
@@ -169,6 +183,10 @@ export class UsersComponent implements OnInit
           this.showConfirmModal = false;
           this.userToChange = null;
         });
+  }
+
+  trackByObj(index: number, obj: any): number {
+    return obj.id;
   }
 
   /**
