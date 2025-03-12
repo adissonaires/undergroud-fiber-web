@@ -8,6 +8,7 @@ export interface User {
     name: string;
     email: string;
     profile: 'ADMINISTRATOR' | 'USER';
+    companyId: number;
     status: 'ACTIVE' | 'INACTIVE';
 }
 

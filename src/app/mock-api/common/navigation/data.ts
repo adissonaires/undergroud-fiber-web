@@ -2,6 +2,13 @@ import {FuseNavigationItem} from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
+        id: 'company',
+        title: 'Companies',
+        type: 'basic',
+        icon: 'heroicons_outline:clipboard-document-check',
+        link: '/companies',
+    },
+    {
         id: 'projects',
         title: 'Projects',
         type: 'basic',
@@ -9,10 +16,10 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link: '/projects',
     },
     {
-        id   : 'kanban',
+        id: 'kanban',
         title: 'Dailies',
-        type : 'basic',
-        icon : 'heroicons_outline:view-columns',
+        type: 'basic',
+        icon: 'heroicons_outline:view-columns',
         link: '/kanban',
     },
     {

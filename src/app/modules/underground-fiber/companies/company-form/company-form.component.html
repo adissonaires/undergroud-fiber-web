@@ -1,0 +1,77 @@
+<div class="px-6 flex flex-col w-full flex-auto min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div class="flex justify-end mt-3.5 mr-3.5">
+        <button type="button"
+                class="rounded bg-green-500 px-6 py-2 text-white font-medium hover:bg-green-600"
+                (click)="createCompany()">
+            {{ isEditMode ? "Update Company" : "Create Company" }}
+        </button>
+    </div>
+
+    <form [formGroup]="companyForm" class="w-full h-full flex flex-col">
+
+        <div class="mx-4 my-4">
+            <mat-accordion class="w-full space-y-2" [multi]="true">
+
+                <!-- Accordion: Company Informations -->
+                <mat-expansion-panel class="rounded shadow-sm bg-white dark:bg-gray-800" [expanded]="true">
+                    <mat-expansion-panel-header class="border-b border-gray-300 dark:border-gray-600 py-2 min-h-0">
+                        <mat-panel-title>
+                            Company Informations
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="px-6 py-4">
+                        <div class="flex flex-col md:flex-row md:space-x-8 mb-8">
+                            <div class="flex-1 md:w-8/12">
+                                <label class="block font-medium mb-1">Company Name</label>
+                                <input
+                                        type="text"
+                                        formControlName="name"
+                                        class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                />
+                            </div>
+                            <div class="flex-1 md:w-4/12 mt-4 md:mt-0">
+                                <label class="block font-medium mb-1">Status</label>
+                                <select
+                                        formControlName="status"
+                                        class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                >
+                                    <option value="ACTIVE">ACTIVE</option>
+                                    <option value="INACTIVE">INACTIVE</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Linha 2: Price Composition, Start Date, Net Term e Company Status -->
+                        <div class="flex flex-col md:flex-row md:space-x-4">
+                            <!-- Price Composition -->
+                            <div class="flex-1 md:w-4/12 mt-4 md:mt-0">
+                                <label class="block font-medium mb-1">E-mail</label>
+                                <input
+                                        type="text"
+                                        formControlName="email"
+                                        class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                />
+                            </div>
+                            <div class="flex-1 md:w-4/12 mt-4 md:mt-0">
+                                <label class="block font-medium mb-1">Address</label>
+                                <input
+                                        type="text"
+                                        formControlName="address"
+                                        class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                />
+                            </div>
+                            <!-- Company Status -->
+                            <div class="flex-1 md:w-3/12 mt-4 md:mt-0">
+                                <label class="block font-medium mb-1">Phone</label>
+                                <input
+                                        type="text"
+                                        formControlName="phone"
+                                        class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </form>
+</div>
