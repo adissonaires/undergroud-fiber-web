@@ -47,6 +47,11 @@ export class DailiesService {
         return this._httpClient.get<any>(`${this._deiliesUrl}/project/${id}`);
     }
 
+    getDailyById(id:number): Observable<any>
+    {
+        return this._httpClient.get<any>(`${this._deiliesUrl}/${id}`);
+    }
+
     getAllDailiesWithoutInvoicesLinked(id:number): Observable<any>
     {
         return this._httpClient.get<any>(`${this._projects}/${id}/dailiesWithoutInvoices`);
@@ -59,7 +64,12 @@ export class DailiesService {
 
     createDaily(dailie: any): Observable<any>
     {
-        return this._httpClient.post<Project>(this._deiliesUrl, dailie);
+        return this._httpClient.post<any>(this._deiliesUrl, dailie);
+    }
+
+    editDaily(dailie: any): Observable<any>
+    {
+        return this._httpClient.put<any>(`${this._deiliesUrl}/${dailie.id}`, dailie);
     }
 
     uploadDailyImages(dailyId: number, files: File[]): Observable<any> {

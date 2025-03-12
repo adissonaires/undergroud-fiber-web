@@ -7,7 +7,7 @@ import {
   OnInit, ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { Subject} from 'rxjs';
 import {MatAccordion, MatExpansionModule, MatExpansionPanel, MatExpansionPanelTitle} from "@angular/material/expansion";
@@ -18,6 +18,7 @@ import {Attachment} from "../../projects/project-form/project-form.component";
 import {DailiesService} from "../dailies.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import {FuseConfirmationService} from "../../../../../@fuse/services/confirmation";
 
 @Component({
   selector: 'app-daily-form-modal',
@@ -41,7 +42,7 @@ export class DailyFormModalComponent implements OnInit, OnDestroy {
   dailyForm: FormGroup;
   dailyItems: any[] = [];
   // Opções para o campo "Pipe"
-  pipeOptions: string[] = ['1.25', '2.0'];
+  pipeOptions: string[] = ['1.25', '2.0', '1.25 & 2.0'];
 
   codeOptions: any[];
 
@@ -57,31 +58,45 @@ export class DailyFormModalComponent implements OnInit, OnDestroy {
       private _snackBar: MatSnackBar,
       public matDialogRef: MatDialogRef<DailyFormModalComponent>,
       private _router: Router,
+      private _fuseConfirmationService: FuseConfirmationService,
       @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit(): void {
-    this.dailyForm = this._formBuilder.group({
-      map: [''],
-      pipe: [''],
-      qtyFootage: [null],
-      qtyDrill: [null],
-      qtyMissil: [null],
-      dateCheckIn: [''],
-      dateCheckOut: [''],
-      address: [''],
-      observation: [''],
-      codeItem: [''],
-      descriptionItem: [{ value: '', disabled: true }],
-      qtyItem: [null],
-      taskTypeId: [{ value: '', disabled: true }],
-      groupName: [''],
-      supervisor: [''],
-      data: [''],
-      statusCard: [''],
-      project: [{ value: this.data.project.name , disabled: true }],
-      subcontractor: [{ value: this.data.project.clientName , disabled: true }]
-    });
+    this.initDailyForm();
+
+    if(this.data.isEditMode){
+      console.log("daily", this.data.dailyId)
+      this._dailyService.getDailyById(this.data.dailyId).subscribe({
+        next: daily => {
+          console.log("RESULT>>", daily)
+          this.dailyForm.patchValue({
+            id: daily.id,
+            map: daily.map,
+            pipe: daily.pipe,
+            qtyFootage: daily.qtyFootage,
+            qtyDrill: daily.qtyDrill,
+            qtyMissil: daily.qtyMissil,
+            dateCheckIn: daily.dateCheckIn,
+            dateCheckOut: daily.dateCheckOut,
+            address: daily.address,
+            observation: daily.observation,
+            groupName: daily.groupName,
+            supervisor: daily.supervisor,
+            data: daily.createdAt,
+            statusCard: daily.statusCard,
+            // project: daily.projectName,
+            // subcontractor: daily.subcontractor
+          });
+
+          if(daily.dailyItems && daily.dailyItems.length > 0){
+            this.dailyItems = daily.dailyItems;
+          }
+
+          this._cdr.markForCheck()
+        }
+      })
+    }
 
     this.codeOptions = this.data?.project?.projectCodes
     console.log("this.this.data", this.data)
@@ -100,6 +115,31 @@ export class DailyFormModalComponent implements OnInit, OnDestroy {
         });
       }
       this._cdr.markForCheck();
+    });
+  }
+
+  private initDailyForm(): void {
+    this.dailyForm = this._formBuilder.group({
+      id: [0],
+      map: ['', [Validators.required]],
+      pipe: [''],
+      qtyFootage: [null, [Validators.required]],
+      qtyDrill: [null],
+      qtyMissil: [null],
+      dateCheckIn: ['', [Validators.required]],
+      dateCheckOut: ['', [Validators.required]],
+      address: ['', [Validators.required]],
+      observation: [''],
+      codeItem: [''],
+      descriptionItem: [{value: '', disabled: true}],
+      qtyItem: [null],
+      taskTypeId: [{value: '', disabled: true}],
+      groupName: ['', [Validators.required]],
+      supervisor: ['', [Validators.required]],
+      data: ['', [Validators.required]],
+      statusCard: ['', [Validators.required]],
+      project: [{value: this.data.project.name, disabled: true}],
+      subcontractor: [{value: this.data.project.clientName, disabled: true}]
     });
   }
 
@@ -204,17 +244,72 @@ export class DailyFormModalComponent implements OnInit, OnDestroy {
   }
 
   saveDaily(): void {
-    // Obtém os valores do formulário
-    const payload = this.dailyForm.value;
 
+    if (this.dailyForm.invalid) {
+      this.dailyForm.markAllAsTouched();
+
+      this._fuseConfirmationService.open({
+        title: 'Required fields missing',
+        message: 'Please fill out all required fields before saving.',
+        actions: {
+          confirm: { label: 'OK', color: 'primary' },
+          cancel: { show: false }
+        },
+        dismissible: true
+      });
+      return;
+    }
+
+    if (this.dailyItems.length === 0) {
+      this._fuseConfirmationService.open({
+        title: 'No items added',
+        message: 'You must add at least one item before saving.',
+        actions: {
+          confirm: { label: 'OK', color: 'primary' },
+          cancel: { show: false }
+        },
+        dismissible: true
+      });
+      return;
+    }
+
+
+    if (this.dailyItems.length === 0) {
+      const dialogRef = this._fuseConfirmationService.open({
+        title: 'No items',
+        message: 'You must add at least one item before saving.',
+        actions: {
+          confirm: { label: 'OK', color: 'primary' },
+          cancel: { show: false }
+        },
+        dismissible: true
+      });
+      return;
+    }
+
+    const payload = this.dailyForm.value;
+    if(this.data.isEditMode) {
+      payload.id = this.dailyForm.get('id').value;
+    }
     payload.dailyItems = this.dailyItems
     payload.projectId = this.data.project.id;
     payload.subcontractor = this.data.project.clientId
 
     console.log("Payload to be sent:", payload);
 
-
-    this._dailyService.createDaily(payload)
+    if(this.data.isEditMode) {
+      this._dailyService.editDaily(payload)
+          .subscribe({
+            next: (dailyEdited) => {
+              this.uploadAttachmentsAndNavigate(dailyEdited.id)
+              console.log("Project created successfully", dailyEdited)
+            },
+            error: (error) => {
+              this._snackBar.open("Error creating project", "Close", { duration: 3000 });
+            }
+          });
+    } else {
+      this._dailyService.createDaily(payload)
           .subscribe({
             next: (dailiyCreted) => {
               this.uploadAttachmentsAndNavigate(dailiyCreted.id)
@@ -224,7 +319,7 @@ export class DailyFormModalComponent implements OnInit, OnDestroy {
               this._snackBar.open("Error creating project", "Close", { duration: 3000 });
             }
           });
-
+    }
   }
 
 
@@ -246,6 +341,7 @@ export class DailyFormModalComponent implements OnInit, OnDestroy {
             }
           });
     } else {
+      this.matDialogRef.close();
       this._router.navigate(['/projects']);
     }
   }

@@ -39,8 +39,14 @@
                             <input
                                     type="text"
                                     formControlName="map"
+                                    [class.is-invalid]="dailyForm.get('map')?.invalid && dailyForm.get('map')?.touched"
                                     class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
                             />
+                            @if(dailyForm.get('map')?.invalid && dailyForm.get('map')?.touched){
+                                <div class="error-message text-red-500 text-xs">
+                                    This field is required.
+                                </div>
+                            }
                         </div>
                         <!-- Pipe -->
                         <div class="flex-1 mt-4 md:mt-0">
@@ -64,8 +70,14 @@
                             <input
                                     type="number"
                                     formControlName="qtyFootage"
+                                    [class.is-invalid]="dailyForm.get('qtyFootage')?.invalid && dailyForm.get('qtyFootage')?.touched"
                                     class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
                             />
+                            @if(dailyForm.get('qtyFootage')?.invalid && dailyForm.get('qtyFootage')?.touched){
+                                <div class="error-message text-red-500 text-xs">
+                                    This field is required.
+                                </div>
+                            }
                         </div>
                         <div class="flex-1 mt-4 md:mt-0">
                             <label class="block font-medium mb-1">Qty Drill</label>
@@ -92,16 +104,29 @@
                             <input
                                     type="datetime-local"
                                     formControlName="dateCheckIn"
+                                    [class.is-invalid]="dailyForm.get('dateCheckIn')?.invalid && dailyForm.get('dateCheckIn')?.touched"
+
                                     class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
                             />
+                            @if(dailyForm.get('dateCheckIn')?.invalid && dailyForm.get('dateCheckIn')?.touched){
+                                <div class="error-message text-red-500 text-xs">
+                                    This field is required.
+                                </div>
+                            }
                         </div>
                         <div class="flex-1 mt-4 md:mt-0">
                             <label class="block font-medium mb-1">Date Check-out</label>
                             <input
                                     type="datetime-local"
                                     formControlName="dateCheckOut"
+                                    [class.is-invalid]="dailyForm.get('dateCheckOut')?.invalid && dailyForm.get('dateCheckOut')?.touched"
                                     class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
                             />
+                            @if(dailyForm.get('dateCheckOut')?.invalid && dailyForm.get('dateCheckOut')?.touched){
+                                <div class="error-message text-red-500 text-xs">
+                                    This field is required.
+                                </div>
+                            }
                         </div>
                     </div>
 
@@ -110,9 +135,15 @@
                         <label class="block font-medium mb-1">Address</label>
                         <textarea
                                 formControlName="address"
+                                [class.is-invalid]="dailyForm.get('address')?.invalid && dailyForm.get('address')?.touched"
                                 rows="3"
-                                class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                class="w-full resize-none rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
                         ></textarea>
+                        @if(dailyForm.get('address')?.invalid && dailyForm.get('address')?.touched){
+                            <div class="error-message text-red-500 text-xs">
+                                This field is required.
+                            </div>
+                        }
                     </div>
 
                     <!-- Linha 5: Observation -->
@@ -121,7 +152,7 @@
                         <textarea
                                 formControlName="observation"
                                 rows="3"
-                                class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
+                                class="w-full resize-none rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100"
                         ></textarea>
                     </div>
                 </div>
@@ -293,20 +324,41 @@
                         <div class="flex-1">
                             <label class="block font-medium mb-1">Group Name</label>
                             <input type="text" formControlName="groupName"
+                                   [class.is-invalid]="dailyForm.get('groupName')?.invalid && dailyForm.get('groupName')?.touched"
                                    class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100" />
+                            @if(dailyForm.get('groupName')?.invalid && dailyForm.get('groupName')?.touched){
+                                <div class="error-message text-red-500 text-xs">
+                                    This field is required.
+                                </div>
+                            }
                         </div>
                         <!-- Supervisor -->
                         <div class="flex-1 mt-4 md:mt-0">
                             <label class="block font-medium mb-1">Supervisor</label>
                             <input type="text" formControlName="supervisor"
+                                   [class.is-invalid]="dailyForm.get('supervisor')?.invalid && dailyForm.get('supervisor')?.touched"
                                    class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100" />
+                            @if(dailyForm.get('supervisor')?.invalid && dailyForm.get('supervisor')?.touched){
+                                <div class="error-message text-red-500 text-xs">
+                                    This field is required.
+                                </div>
+                            }
+
                         </div>
                         <!-- Data -->
                         <div class="flex-1 mt-4 md:mt-0">
                             <label class="block font-medium mb-1">Data</label>
                             <input type="date" formControlName="data"
+                                   [class.is-invalid]="dailyForm.get('data')?.invalid && dailyForm.get('data')?.touched"
+
                                    class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100" />
+                            @if(dailyForm.get('data')?.invalid && dailyForm.get('data')?.touched){
+                                <div class="error-message text-red-500 text-xs">
+                                    This field is required.
+                                </div>
+                            }
                         </div>
+
                     </div>
                     <!-- Linha 2: Status Card, Project e SubContractor -->
                     <div class="flex flex-col md:flex-row md:space-x-4">
@@ -314,11 +366,17 @@
                         <div class="flex-1 md:w-4/12">
                             <label class="block font-medium mb-1">Status Card</label>
                             <select formControlName="statusCard"
+                                    [class.is-invalid]="dailyForm.get('statusCard')?.invalid && dailyForm.get('statusCard')?.touched"
                                     class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100">
                                 <option value="">-- Select an option --</option>
                                 <option value="DOING">DOING</option>
                                 <option value="DONE">DONE</option>
                             </select>
+                            @if(dailyForm.get('statusCard')?.invalid && dailyForm.get('statusCard')?.touched){
+                                <div class="error-message text-red-500 text-xs">
+                                    This field is required.
+                                </div>
+                            }
                         </div>
                         <!-- Project (desabilitado) -->
                         <div class="flex-1 md:w-4/12 mt-4 md:mt-0">

@@ -95,6 +95,7 @@ export class KanbanDailiesComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
+
     this.projectId = Number(this._route.snapshot.paramMap.get('id'));
 
     this._projectsService.getProjectById(this.projectId)
@@ -103,6 +104,33 @@ export class KanbanDailiesComponent implements OnInit, OnDestroy {
           this.project = project
           this._changeDetectorRef.markForCheck();
         });
+
+    this.board = {
+      id: this.projectId,
+      title: this.project?.map || 'Project',
+      description: null,
+      icon: 'heroicons_outline:rectangle-group',
+      lastActivity: null,
+      members: [],
+      lists: [
+        {
+          id: "1",
+          title: 'Doing',
+          cards: null,
+          boardId: '',
+          position: 0
+        },
+        {
+          id: "2",
+          title: 'Done',
+          cards: null,
+          boardId: '',
+          position: 0
+        }
+      ]
+    };
+
+
     this._dailiesService.getAllDeliesByProjectId(this.projectId)
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe(dailies => {
@@ -444,13 +472,15 @@ export class KanbanDailiesComponent implements OnInit, OnDestroy {
     return [currentItem];
   }
 
-  openDailyModal(): void {
+  openDailyModal(mode: string, daily?:any): void {
     const dialogRef = this._matDialog.open(DailyFormModalComponent, {
       width: '900px',
       height: 'auto',
       maxWidth: 'none',
       panelClass: 'daily-form-modal',
       data: {
+        isEditMode: mode === 'edit',
+        dailyId: daily?.id,
         project: this.project
       }
     });
