@@ -19,6 +19,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class CompanyListComponent implements OnInit {
     companies: Company[] = [];
+    searchTerm: string = '';
 
     constructor(
         private _companyService: CompanyService,
@@ -31,6 +32,16 @@ export class CompanyListComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadCompanies();
+    }
+
+    get filteredCompanies(): Company[] {
+        if (!this.searchTerm) {
+            return this.companies;
+        }
+        const lowerSearch = this.searchTerm.toLowerCase();
+        return this.companies.filter(companie =>
+            companie.name.toLowerCase().includes(lowerSearch)
+        );
     }
 
     loadCompanies(): void {

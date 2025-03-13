@@ -5,14 +5,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id: 'company',
         title: 'Companies',
         type: 'basic',
-        icon: 'heroicons_outline:clipboard-document-check',
+        icon: 'heroicons_outline:building-office-2',
         link: '/companies',
     },
     {
         id: 'client',
         title: 'Clients',
         type: 'basic',
-        icon: 'heroicons_outline:clipboard-document-check',
+        icon: 'heroicons_outline:user-group',
         link: '/clients',
     },
     {

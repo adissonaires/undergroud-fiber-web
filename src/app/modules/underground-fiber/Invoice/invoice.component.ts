@@ -7,11 +7,15 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {FuseConfirmationService} from "../../../../@fuse/services/confirmation";
 import {InvoicePreviewComponent} from "./invoice-preview/invoice-preview.component";
 import {MatDialog} from "@angular/material/dialog";
+import {MatTooltip} from "@angular/material/tooltip";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-invoice',
   imports: [
-    DatePipe
+    DatePipe,
+    MatTooltip,
+    FormsModule
   ],
   templateUrl: './invoice.component.html',
   standalone: true,
@@ -19,6 +23,7 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class InvoiceComponent implements OnInit {
   invoices: Invoice[] = [];
+  searchTerm: string = '';
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -41,6 +46,16 @@ export class InvoiceComponent implements OnInit {
           this.invoices = response;
           this._cdr.markForCheck();
         });
+  }
+
+  get filteredInvoice(): Invoice[] {
+    if (!this.searchTerm) {
+      return this.invoices;
+    }
+    const lowerSearch = this.searchTerm.toLowerCase();
+    return this.invoices.filter(invoice =>
+        invoice.number.toLowerCase().includes(lowerSearch)
+    );
   }
 
   trackByFn(index: number, item: Invoice): number {
