@@ -19,6 +19,11 @@ export class AuthService {
         return localStorage.getItem('token') ?? '';
     }
 
+    get userId(): number {
+        const tokenDecoded = AuthUtils.decodeToken(this.accessToken);
+        return tokenDecoded.jti;
+    }
+
     forgotPassword(email: string): Observable<any> {
         return this._httpClient.post('api/auth/forgot-password', email);
     }

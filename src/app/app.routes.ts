@@ -59,6 +59,7 @@ export const appRoutes: Route[] = [
         },
         children: [
             {path: 'users', loadChildren: () => import('app/modules/underground-fiber/users/users/users.routes')},
+            {path: 'settings', loadChildren: () => import('app/modules/underground-fiber/settings/settings.routes')},
             {
                 path: 'companies',
                 loadChildren: () => import('app/modules/underground-fiber/companies/company-list/company-list.routes')
