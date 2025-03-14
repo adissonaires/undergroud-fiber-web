@@ -341,10 +341,10 @@ export class InvoiceFormComponent implements OnInit {
   protected updateProjectFieldState(): void
   {
     if (this.invoiceItems.length > 0) {
-      this.invoiceForm.get('projectId')?.disable({ emitEvent: false });
+      this.invoiceForm.get('projectId').disabled;
     }
     else {
-      this.invoiceForm.get('projectId')?.enable({ emitEvent: false });
+      this.invoiceForm.get('projectId')?.enabled;
     }
   }
 
