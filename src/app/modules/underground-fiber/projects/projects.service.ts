@@ -64,6 +64,10 @@ export class ProjectsService {
         return this._httpClient.put<Project>(`${this._projectsUrl}/${id}`, project);
     }
 
+    deleteProject(id: number): Observable<any> {
+        return this._httpClient.delete<Project>(`${this._projectsUrl}/${id}`);
+    }
+
     uploadProjectImages(projectId: number, files: File[]): Observable<any> {
         const formData = new FormData();
         files.forEach(file => {

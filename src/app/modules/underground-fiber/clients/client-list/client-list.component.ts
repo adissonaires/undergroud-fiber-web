@@ -19,6 +19,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class ClientListComponent implements OnInit {
     clients: Client[] = [];
+    searchTerm: string = '';
 
     constructor(
         private _clientService: ClientService,
@@ -27,6 +28,16 @@ export class ClientListComponent implements OnInit {
         private _activatedRoute: ActivatedRoute,
         private _snackBar: MatSnackBar
     ) {
+    }
+
+    get filteredClients(): Client[] {
+        if (!this.searchTerm) {
+            return this.clients;
+        }
+        const lowerSearch = this.searchTerm.toLowerCase();
+        return this.clients.filter(client =>
+            client.name.toLowerCase().includes(lowerSearch)
+        );
     }
 
     ngOnInit(): void {

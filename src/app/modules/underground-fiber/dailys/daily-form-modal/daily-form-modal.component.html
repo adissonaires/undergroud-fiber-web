@@ -348,11 +348,11 @@
                         <!-- Data -->
                         <div class="flex-1 mt-4 md:mt-0">
                             <label class="block font-medium mb-1">Data</label>
-                            <input type="date" formControlName="data"
-                                   [class.is-invalid]="dailyForm.get('data')?.invalid && dailyForm.get('data')?.touched"
+                            <input type="date" formControlName="createdAt"
+                                   [class.is-invalid]="dailyForm.get('createdAt')?.invalid && dailyForm.get('createdAt')?.touched"
 
                                    class="w-full rounded border px-3 py-2 bg-transparent text-gray-800 dark:bg-gray-700 dark:text-gray-100" />
-                            @if(dailyForm.get('data')?.invalid && dailyForm.get('data')?.touched){
+                            @if(dailyForm.get('createdAt')?.invalid && dailyForm.get('createdAt')?.touched){
                                 <div class="error-message text-red-500 text-xs">
                                     This field is required.
                                 </div>

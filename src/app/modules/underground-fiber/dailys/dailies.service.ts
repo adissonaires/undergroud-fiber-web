@@ -6,6 +6,7 @@ import {Project} from "../projects/projects.service";
 
 
 export interface Dailie {
+    arrayImagesLength: number;
     id: number,
     map: string,
     qtyFootage: number,

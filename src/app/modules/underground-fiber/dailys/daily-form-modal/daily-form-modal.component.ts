@@ -66,7 +66,6 @@ export class DailyFormModalComponent implements OnInit, OnDestroy {
     this.initDailyForm();
 
     if(this.data.isEditMode){
-      console.log("daily", this.data.dailyId)
       this._dailyService.getDailyById(this.data.dailyId).subscribe({
         next: daily => {
           console.log("RESULT>>", daily)
@@ -83,7 +82,7 @@ export class DailyFormModalComponent implements OnInit, OnDestroy {
             observation: daily.observation,
             groupName: daily.groupName,
             supervisor: daily.supervisor,
-            data: daily.createdAt,
+            createdAt: daily.createdAt,
             statusCard: daily.statusCard,
             // project: daily.projectName,
             // subcontractor: daily.subcontractor
@@ -91,6 +90,10 @@ export class DailyFormModalComponent implements OnInit, OnDestroy {
 
           if(daily.dailyItems && daily.dailyItems.length > 0){
             this.dailyItems = daily.dailyItems;
+          }
+
+          if(daily.images && daily.images.length > 0){
+            this.attachments = daily.images;
           }
 
           this._cdr.markForCheck()
@@ -136,7 +139,7 @@ export class DailyFormModalComponent implements OnInit, OnDestroy {
       taskTypeId: [{value: '', disabled: true}],
       groupName: ['', [Validators.required]],
       supervisor: ['', [Validators.required]],
-      data: ['', [Validators.required]],
+      createdAt: ['', [Validators.required]],
       statusCard: ['', [Validators.required]],
       project: [{value: this.data.project.name, disabled: true}],
       subcontractor: [{value: this.data.project.clientName, disabled: true}]
@@ -301,8 +304,7 @@ export class DailyFormModalComponent implements OnInit, OnDestroy {
       this._dailyService.editDaily(payload)
           .subscribe({
             next: (dailyEdited) => {
-              this.uploadAttachmentsAndNavigate(dailyEdited.id)
-              console.log("Project created successfully", dailyEdited)
+              this.uploadAttachmentsAndNavigate(dailyEdited.id, 'edit')
             },
             error: (error) => {
               this._snackBar.open("Error creating project", "Close", { duration: 3000 });
@@ -312,8 +314,7 @@ export class DailyFormModalComponent implements OnInit, OnDestroy {
       this._dailyService.createDaily(payload)
           .subscribe({
             next: (dailiyCreted) => {
-              this.uploadAttachmentsAndNavigate(dailiyCreted.id)
-              console.log("Project created successfully", dailiyCreted)
+              this.uploadAttachmentsAndNavigate(dailiyCreted.id, 'create')
             },
             error: (error) => {
               this._snackBar.open("Error creating project", "Close", { duration: 3000 });
@@ -323,26 +324,51 @@ export class DailyFormModalComponent implements OnInit, OnDestroy {
   }
 
 
-  private uploadAttachmentsAndNavigate(dailyId: number): void {
+  private uploadAttachmentsAndNavigate(dailyId: number, mode: string): void {
 
     const newFiles = this.attachments.filter(a => a.file instanceof File).map(a => a.file);
     if (newFiles.length > 0) {
       this._dailyService.uploadDailyImages(dailyId, newFiles)
           .subscribe({
             next: (uploadResponse) => {
+              const dialogRef = this._fuseConfirmationService.open({
+                title: 'Success',
+                message: `Daily ${mode == 'edit' ? 'Edited' : 'Created'} and Image(s) upload successfully`,
+                icon: {
+                  show: true,
+                  name: 'heroicons_outline:check',
+                  color: 'success',
+                },
+                actions: {
+                  confirm: { label: 'OK', color: 'accent' },
+                  cancel: { show: false }
+                },
+                dismissible: true
+              });
               this.matDialogRef.close();
-              this._snackBar.open("Daily saved and Images uploaded successfully", "Close", { duration: 3000 });
-              this._router.navigate(['/projects']);
             },
             error: (uploadError) => {
               this.matDialogRef.close();
               this._snackBar.open("Daily saved, but image upload failed!", "Close", { duration: 3000 });
-              this._router.navigate(['/projects']);
+              this._router.navigate(['/kanban']);
             }
           });
     } else {
+      const dialogRef = this._fuseConfirmationService.open({
+        title: 'Success',
+        message: `Daily ${mode == 'edit' ? 'Edited' : 'Created'} successfully`,
+        icon: {
+          show: true,
+          name: 'heroicons_outline:check',
+          color: 'success',
+        },
+        actions: {
+          confirm: { label: 'OK', color: 'accent' },
+          cancel: { show: false }
+        },
+        dismissible: true
+      });
       this.matDialogRef.close();
-      this._router.navigate(['/projects']);
     }
   }
 }

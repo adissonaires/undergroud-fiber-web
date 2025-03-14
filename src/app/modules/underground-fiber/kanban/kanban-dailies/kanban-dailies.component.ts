@@ -149,7 +149,7 @@ export class KanbanDailiesComponent implements OnInit, OnDestroy {
                   boardId: null,
                   labels: [
                     { title: `${daily.qtyFootage} Fibers Installed`, id:null, boardId: null },
-                    { title: `${daily?.images ? daily.images.length : '0'} Attachment`, id:null, boardId: null },
+                    { title: `${daily?.arrayImagesLength ? daily?.arrayImagesLength : '0'} Attachment`, id:null, boardId: null },
                   ],
                   dueDate: DateTime.now().toISO()
                 }));
@@ -166,7 +166,7 @@ export class KanbanDailiesComponent implements OnInit, OnDestroy {
                   boardId: null,
                   labels: [
                     { title: `${daily.qtyFootage} Fibers Installed`, id:null, boardId: null  },
-                    { title: `${daily?.images ? daily.images.length : '0'} Attachment`, id:null, boardId: null  },
+                    { title: `${daily?.arrayImagesLength ? daily?.arrayImagesLength : '0'} Attachment`, id:null, boardId: null  },
                   ],
                   dueDate: DateTime.now().toISO()
                 }));

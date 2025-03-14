@@ -1,12 +1,14 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from "rxjs";
 import {Project, ProjectsService} from "../projects/projects.service";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {MatIcon} from "@angular/material/icon";
 import {DateTime} from "luxon";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {MatTooltip} from "@angular/material/tooltip";
 import {PercentPipe} from "@angular/common";
+import {CdkScrollable} from "@angular/cdk/scrolling";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 class ScrumboardService {
 }
@@ -18,7 +20,10 @@ class ScrumboardService {
     MatIcon,
     MatProgressBar,
     MatTooltip,
-    PercentPipe
+    PercentPipe,
+    CdkScrollable,
+    ReactiveFormsModule,
+    FormsModule
   ],
   templateUrl: './kanban.component.html',
   standalone: true,
@@ -27,6 +32,7 @@ class ScrumboardService {
 export class KanbanComponent implements OnInit, OnDestroy {
 
   projects : Project[];
+  searchTerm: string = '';
 
   // Private
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -37,6 +43,7 @@ export class KanbanComponent implements OnInit, OnDestroy {
   constructor(
       private _cdr: ChangeDetectorRef,
       private _projectsService: ProjectsService,
+      private _router: Router,
   ) {}
 
   // -----------------------------------------------------------------------------------------------------
@@ -49,6 +56,16 @@ export class KanbanComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Get the boards
     this.loadProjects()
+  }
+
+  get filteredProjects(): Project[] {
+    if (!this.searchTerm) {
+      return this.projects;
+    }
+    const lowerSearch = this.searchTerm.toLowerCase();
+    return this.projects.filter(project =>
+        project.name.toLowerCase().includes(lowerSearch)
+    );
   }
 
 
@@ -88,6 +105,10 @@ export class KanbanComponent implements OnInit, OnDestroy {
     ).length;
 
     return (100 * doneCount) / board.dailies.length;
+  }
+
+  redirectCreateProjectForm(){
+    this._router.navigate(['/projects/create'])
   }
 
 }

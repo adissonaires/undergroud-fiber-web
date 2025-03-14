@@ -13,6 +13,7 @@ import {Client, PriceCompositionType, Project, ProjectsService, TaskType} from "
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {ActivatedRoute, Router} from "@angular/router";
+import {FuseConfirmationService} from "../../../../../@fuse/services/confirmation";
 
 export interface Attachment {
   fileName: string;
@@ -64,7 +65,8 @@ export class ProjectFormComponent implements OnInit
       private _projectsService: ProjectsService,
       private _route: ActivatedRoute,
       private _router: Router,
-      private _snackBar: MatSnackBar
+      private _snackBar: MatSnackBar,
+      private _fuseConfirmationService: FuseConfirmationService,
   ) {}
 
   // -----------------------------------------------------------------------------------------------------
@@ -280,43 +282,92 @@ export class ProjectFormComponent implements OnInit
       this._projectsService.updateProject(this.projectId, payload)
           .subscribe({
             next: (updatedProject) => {
-              this._snackBar.open("Project updated successfully", "Close", { duration: 3000 });
-              this.uploadAttachmentsAndNavigate(updatedProject.id);
+              this.uploadAttachmentsAndNavigate(updatedProject.id, 'edit');
             },
             error: (error) => {
-              this._snackBar.open("Error updating project", "Close", { duration: 3000 });
+              this._fuseConfirmationService.open({
+                title: 'Error',
+                message: 'Error editing Invoice!',
+                actions: {
+                  confirm: { label: 'OK', color: 'primary' },
+                  cancel: { show: false }
+                },
+                dismissible: true
+              });
             }
           });
     } else {
       this._projectsService.createProject(payload)
           .subscribe({
             next: (createdProject) => {
-              this._snackBar.open("Project created successfully", "Close", { duration: 3000 });
-              this.uploadAttachmentsAndNavigate(createdProject.id);
+              this.uploadAttachmentsAndNavigate(createdProject.id, 'create');
             },
             error: (error) => {
-              this._snackBar.open("Error creating project", "Close", { duration: 3000 });
+              this._fuseConfirmationService.open({
+                title: 'Error',
+                message: 'Error editing Invoice!',
+                actions: {
+                  confirm: { label: 'OK', color: 'primary' },
+                  cancel: { show: false }
+                },
+                dismissible: true
+              });
             }
           });
     }
   }
 
-  private uploadAttachmentsAndNavigate(projectId: number): void {
+  private uploadAttachmentsAndNavigate(projectId: number, mode:string): void {
 
     const newFiles = this.attachments.filter(a => a.file instanceof File).map(a => a.file);
     if (newFiles.length > 0) {
       this._projectsService.uploadProjectImages(projectId, newFiles)
           .subscribe({
             next: (uploadResponse) => {
-              this._snackBar.open("Images uploaded successfully", "Close", { duration: 3000 });
+              const dialogRef = this._fuseConfirmationService.open({
+                title: 'Success',
+                message: `Invoice ${mode == 'edit' ? 'Edited': 'Created'} and Image(s) upload successfully`,
+                icon: {
+                  show: true,
+                  name: 'heroicons_outline:check',
+                  color: 'success',
+                },
+                actions: {
+                  confirm: { label: 'OK', color: 'accent' },
+                  cancel: { show: false }
+                },
+                dismissible: true
+              });
               this._router.navigate(['/projects']);
             },
             error: (uploadError) => {
-              this._snackBar.open("Project saved, but image upload failed", "Close", { duration: 3000 });
+              this._fuseConfirmationService.open({
+                title: 'Error',
+                message: '"Project saved, but image upload failed',
+                actions: {
+                  confirm: { label: 'OK', color: 'primary' },
+                  cancel: { show: false }
+                },
+                dismissible: true
+              });
               this._router.navigate(['/projects']);
             }
           });
     } else {
+      const dialogRef = this._fuseConfirmationService.open({
+        title: 'Success',
+        message: 'Invoice Edited successfully',
+        icon: {
+          show: true,
+          name: 'heroicons_outline:check',
+          color: 'success',
+        },
+        actions: {
+          confirm: { label: 'OK', color: 'accent' },
+          cancel: { show: false }
+        },
+        dismissible: true
+      });
       this._router.navigate(['/projects']);
     }
   }

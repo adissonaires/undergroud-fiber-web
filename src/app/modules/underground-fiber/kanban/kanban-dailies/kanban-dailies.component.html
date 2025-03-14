@@ -1,4 +1,4 @@
-<div class="absolute inset-0 flex min-w-0 flex-col">
+<div class="inset-0 w-full flex min-w-0 flex-col">
     <!-- Header -->
     <div
             class="bg-card flex flex-0 flex-col border-b dark:bg-transparent sm:flex-row sm:items-center sm:justify-between sm:px-10 sm:py-5"
@@ -106,7 +106,7 @@
                             >
                                 <div
                                         [id]="list.id"
-                                        class="p-3 pb-0"
+                                        class="p-3 pb-0.5"
                                         cdkDropList
                                         [cdkDropListData]="list.cards"
                                         (cdkDropListDropped)="cardDropped($event)"

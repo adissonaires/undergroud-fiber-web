@@ -7,14 +7,13 @@
                 <!-- Botão Save -->
                 <button
                         class="rounded bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-600"
-                        (click)="downloadPdf()"
+                        (click)="downloadPdf()" matTooltip="Download Invoice"
                 >
-                    Save
-                    <!--                    (click)="downloadPdf()"-->
+                    <mat-icon [attr.aria-hidden]="false" style="color: white" svgIcon="heroicons_solid:document-arrow-down"></mat-icon>
                 </button>
                 <!-- Botão Close -->
                 <button mat-icon-button (click)="close()" [tabIndex]="-1">
-                    <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
+                    <mat-icon class="text-current" [attr.aria-hidden]="false" [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
                 </button>
             </div>
         </div>
