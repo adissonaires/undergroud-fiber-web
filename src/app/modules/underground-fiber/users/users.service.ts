@@ -27,6 +27,10 @@ export class UsersService {
         return this._httpClient.get<User[]>(this._usersUrl);
     }
 
+    getAllUsersByCompany(companyId): Observable<User[]> {
+        return this._httpClient.get<User[]>(this._usersUrl + `/company/${companyId}`);
+    }
+
     createUser(user: User): Observable<User> {
         return this._httpClient.post<User>(this._usersUrl, user);
     }

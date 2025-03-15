@@ -74,19 +74,19 @@ export class SettingsPlanBillingComponent implements OnInit {
                 value: 'basic',
                 label: 'BASIC',
                 details: 'Starter plan for individuals.',
-                price: '10',
+                price: '190'
             },
             {
                 value: 'team',
                 label: 'TEAM',
                 details: 'Collaborate up to 10 people.',
-                price: '20',
+                price: '290',
             },
             {
                 value: 'enterprise',
                 label: 'ENTERPRISE',
                 details: 'For bigger businesses.',
-                price: '40',
+                price: '490',
             },
         ];
     }

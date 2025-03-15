@@ -65,8 +65,6 @@ export class SettingsAccountComponent implements OnInit {
             about: [''],
             email: ['', Validators.email],
             phone: [''],
-            country: [''],
-            language: [''],
         });
         console.log('this._userService.user', this._authService.userId)
 
@@ -75,19 +73,15 @@ export class SettingsAccountComponent implements OnInit {
     }
 
     getSettingsAccountByUserId() {
+        console.log('this._authService', this._authService.company);
         this._settingsService.getAccountByUserId(this._authService.userId).subscribe(response => {
             console.log('response', response);
             // Create the form
             this.accountForm.get('name').setValue(response.name);
             this.accountForm.get('username').setValue(response.email);
-            // this.accountForm.get('title').setValue(response.name);
             this.accountForm.get('company').setValue(response.company.name);
-            // this.accountForm.get('about').setValue(response.name);
             this.accountForm.get('email').setValue(response.email);
-            // this.accountForm.get('phone').setValue(response.name);
-            // this.accountForm.get('country').setValue(response.name);
-            // this.accountForm.get('language').setValue(response.name);
-
+            this.accountForm.get('phone').setValue(response.name);
         })
     }
 }

@@ -1,27 +1,21 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { FuseFullscreenComponent } from '@fuse/components/fullscreen';
-import { FuseLoadingBarComponent } from '@fuse/components/loading-bar';
-import {
-    FuseNavigationService,
-    FuseVerticalNavigationComponent,
-} from '@fuse/components/navigation';
-import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { NavigationService } from 'app/core/navigation/navigation.service';
-import { Navigation } from 'app/core/navigation/navigation.types';
-import { UserService } from 'app/core/user/user.service';
-import { User } from 'app/core/user/user.types';
-import { LanguagesComponent } from 'app/layout/common/languages/languages.component';
-import { MessagesComponent } from 'app/layout/common/messages/messages.component';
-import { NotificationsComponent } from 'app/layout/common/notifications/notifications.component';
-import { QuickChatComponent } from 'app/layout/common/quick-chat/quick-chat.component';
-import { SearchComponent } from 'app/layout/common/search/search.component';
-import { ShortcutsComponent } from 'app/layout/common/shortcuts/shortcuts.component';
-import { UserComponent } from 'app/layout/common/user/user.component';
-import { Subject, takeUntil } from 'rxjs';
-import {AuthUtils} from "../../../../core/auth/auth.utils";
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {ActivatedRoute, Router, RouterOutlet} from '@angular/router';
+import {FuseFullscreenComponent} from '@fuse/components/fullscreen';
+import {FuseLoadingBarComponent} from '@fuse/components/loading-bar';
+import {FuseNavigationService, FuseVerticalNavigationComponent,} from '@fuse/components/navigation';
+import {FuseMediaWatcherService} from '@fuse/services/media-watcher';
+import {NavigationService} from 'app/core/navigation/navigation.service';
+import {Navigation} from 'app/core/navigation/navigation.types';
+import {LanguagesComponent} from 'app/layout/common/languages/languages.component';
+import {MessagesComponent} from 'app/layout/common/messages/messages.component';
+import {NotificationsComponent} from 'app/layout/common/notifications/notifications.component';
+import {SearchComponent} from 'app/layout/common/search/search.component';
+import {ShortcutsComponent} from 'app/layout/common/shortcuts/shortcuts.component';
+import {UserComponent} from 'app/layout/common/user/user.component';
+import {Subject, takeUntil} from 'rxjs';
+import {AuthService} from "../../../../core/auth/auth.service";
 
 @Component({
     selector: 'classy-layout',
@@ -47,7 +41,7 @@ import {AuthUtils} from "../../../../core/auth/auth.utils";
 export class ClassyLayoutComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
     navigation: Navigation;
-    user: User;
+    user: any;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -57,10 +51,11 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         private _router: Router,
         private _navigationService: NavigationService,
-        private _userService: UserService,
+        private _authService: AuthService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService
-    ) {}
+    ) {
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -88,27 +83,17 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
                 this.navigation = navigation;
             });
 
-        let token = localStorage.getItem('token')
-
-        // Decodifica o token e extrai informações
-        const decoded = AuthUtils.decodeToken(token);
-        // Exemplo do que você quer armazenar
-        // (Ajuste conforme sua estrutura)
-        // sub: 'julio@gmail.com', name: 'julio', profile: { ... }
-        const user = {
-            id: '0',
-            email   : decoded.sub,
-            name    : decoded.name,
-            profile : decoded.profile // { id, name, status }
+        this.user = {
+            id: this._authService.user.sub,
+            email: this._authService.user.aud,
+            name: this._authService.user.name,
+            profile: this._authService.user.profile,
+            company: this._authService.user.company,
         };
 
-        // Subscribe to the user service
-        this.user = user;
-
-        // Subscribe to media changes
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(({ matchingAliases }) => {
+            .subscribe(({matchingAliases}) => {
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });

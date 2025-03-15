@@ -56,6 +56,10 @@ export class ProjectsService {
         return this._httpClient.get<Project[]>(this._projectsUrl);
     }
 
+    getAllProjectsByCompany(companyId): Observable<Project[]> {
+        return this._httpClient.get<Project[]>(this._projectsUrl + `/company/${companyId}`);
+    }
+
     createProject(project: Project): Observable<Project> {
         return this._httpClient.post<Project>(this._projectsUrl, project);
     }

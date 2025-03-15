@@ -24,6 +24,10 @@ export class ClientService {
         return this._httpClient.get<Client[]>(this._clientsUrl);
     }
 
+    getAllClientsByCompany(companyId): Observable<Client[]> {
+        return this._httpClient.get<Client[]>(this._clientsUrl + `/company/${companyId}`);
+    }
+
     createClient(project: Client): Observable<Client> {
         return this._httpClient.post<Client>(this._clientsUrl, project);
     }

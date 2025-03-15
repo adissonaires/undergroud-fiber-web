@@ -20,8 +20,32 @@ export class AuthService {
     }
 
     get userId(): number {
+        return this.decodeTokenProperty('jti') ?? 0;
+    }
+
+    get company(): any {
+        return this.decodeTokenProperty('company') ?? null;
+    }
+
+    get user(): any {
+        return this.decodeToken(this.accessToken);
+    }
+
+    get isAdmin(): boolean {
+        return this.user.profile.name === 'ADMINISTRATOR';
+    }
+
+    get isMaster(): boolean {
+        return this.user.profile.name === 'MASTER';
+    }
+
+    private decodeTokenProperty(key: string): any {
         const tokenDecoded = AuthUtils.decodeToken(this.accessToken);
-        return tokenDecoded.jti;
+        return tokenDecoded ? tokenDecoded[key] : null;
+    }
+
+    private decodeToken(token): any {
+        return AuthUtils.decodeToken(token);
     }
 
     forgotPassword(email: string): Observable<any> {
@@ -36,11 +60,12 @@ export class AuthService {
 
         return this._httpClient.post(`${environment.apiUrl}/authentication/login`, credentials).pipe(
             switchMap((response: any) => {
+                console.log('response', response)
                 this.accessToken = response.token;
 
                 this._authenticated = true;
 
-                this._userService.user = response.user;
+                this._userService.user = this.decodeToken(response.token);
 
                 return of(response);
             })

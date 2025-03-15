@@ -1,5 +1,4 @@
-import { BooleanInput } from '@angular/cdk/coercion';
-import { NgClass } from '@angular/common';
+import {BooleanInput} from '@angular/cdk/coercion';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -9,14 +8,13 @@ import {
     OnInit,
     ViewEncapsulation,
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { Router } from '@angular/router';
-import { UserService } from 'app/core/user/user.service';
-import { User } from 'app/core/user/user.types';
-import { Subject, takeUntil } from 'rxjs';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+import {Router} from '@angular/router';
+import {Subject} from 'rxjs';
+import {AuthService} from "../../../core/auth/auth.service";
 
 @Component({
     selector: 'user',
@@ -39,7 +37,7 @@ export class UserComponent implements OnInit, OnDestroy {
     /* eslint-enable @typescript-eslint/naming-convention */
 
     @Input() showAvatar: boolean = true;
-    user: User;
+    user: { profile: any; name: any; company: any; id: any; email: any, avatar: any };
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -49,8 +47,9 @@ export class UserComponent implements OnInit, OnDestroy {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _userService: UserService
-    ) {}
+        private _authService: AuthService
+    ) {
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -61,7 +60,14 @@ export class UserComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         // Subscribe to user changes
-        this.user = this._userService.user;
+        this.user = {
+            id: this._authService.user.sub,
+            email: this._authService.user.aud,
+            name: this._authService.user.name,
+            profile: this._authService.user.profile,
+            company: this._authService.user.company,
+            avatar: ''
+        };
     }
 
     /**
@@ -73,7 +79,7 @@ export class UserComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
-    teste() {
+    settings() {
         this._router.navigate(['settings']);
     }
 

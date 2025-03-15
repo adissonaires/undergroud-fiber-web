@@ -18,34 +18,11 @@
                             [svgIcon]="'heroicons_solid:user'"
                             matPrefix
                     ></mat-icon>
-                    <input [formControlName]="'name'" matInput/>
-                </mat-form-field>
-            </div>
-            <!-- Username -->
-            <div class="sm:col-span-4">
-                <mat-form-field
-                        class="fuse-mat-emphasized-affix w-full"
-                        [subscriptSizing]="'dynamic'"
-                >
-                    <mat-label>Username</mat-label>
-                    <div class="text-secondary" matPrefix>mail</div>
-                    <input [formControlName]="'username'" matInput/>
-                </mat-form-field>
-            </div>
-            <!-- Title -->
-            <div class="sm:col-span-2">
-                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
-                    <mat-label>Title</mat-label>
-                    <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'heroicons_solid:briefcase'"
-                            matPrefix
-                    ></mat-icon>
-                    <input [formControlName]="'title'" matInput/>
+                    <input [formControlName]="'name'" matInput readonly/>
                 </mat-form-field>
             </div>
             <!-- Company -->
-            <div class="sm:col-span-2">
+            <div class="sm:col-span-4">
                 <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
                     <mat-label>Company</mat-label>
                     <mat-icon
@@ -53,24 +30,8 @@
                             [svgIcon]="'heroicons_solid:building-office-2'"
                             matPrefix
                     ></mat-icon>
-                    <input [formControlName]="'company'" matInput/>
+                    <input [formControlName]="'company'" matInput readonly/>
                 </mat-form-field>
-            </div>
-            <!-- About -->
-            <div class="sm:col-span-4">
-                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
-                    <mat-label>About</mat-label>
-                    <textarea
-                            matInput
-                            [formControlName]="'about'"
-                            cdkTextareaAutosize
-                            [cdkAutosizeMinRows]="5"
-                    ></textarea>
-                </mat-form-field>
-                <div class="text-hint mt-1 text-md">
-                    Brief description for your profile. Basic HTML and Emoji are
-                    allowed.
-                </div>
             </div>
         </div>
 
@@ -95,7 +56,7 @@
                             [svgIcon]="'heroicons_solid:envelope'"
                             matPrefix
                     ></mat-icon>
-                    <input [formControlName]="'email'" matInput/>
+                    <input [formControlName]="'email'" matInput readonly/>
                 </mat-form-field>
             </div>
             <!-- Phone -->
@@ -107,44 +68,7 @@
                             [svgIcon]="'heroicons_solid:phone'"
                             matPrefix
                     ></mat-icon>
-                    <input [formControlName]="'phone'" matInput/>
-                </mat-form-field>
-            </div>
-            <!-- Country -->
-            <div class="sm:col-span-2">
-                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
-                    <mat-label>Country</mat-label>
-                    <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'heroicons_solid:map-pin'"
-                            matPrefix
-                    ></mat-icon>
-                    <mat-select [formControlName]="'country'">
-                        <mat-option [value]="'usa'">United States</mat-option>
-                        <mat-option [value]="'canada'">Canada</mat-option>
-                        <mat-option [value]="'mexico'">Mexico</mat-option>
-                        <mat-option [value]="'france'">France</mat-option>
-                        <mat-option [value]="'germany'">Germany</mat-option>
-                        <mat-option [value]="'italy'">Italy</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <!-- Language -->
-            <div class="sm:col-span-2">
-                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
-                    <mat-label>Language</mat-label>
-                    <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'heroicons_solid:globe-alt'"
-                            matPrefix
-                    ></mat-icon>
-                    <mat-select [formControlName]="'language'">
-                        <mat-option [value]="'english'">English</mat-option>
-                        <mat-option [value]="'french'">French</mat-option>
-                        <mat-option [value]="'spanish'">Spanish</mat-option>
-                        <mat-option [value]="'german'">German</mat-option>
-                        <mat-option [value]="'italian'">Italian</mat-option>
-                    </mat-select>
+                    <input [formControlName]="'phone'" matInput readonly/>
                 </mat-form-field>
             </div>
         </div>

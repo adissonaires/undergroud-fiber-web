@@ -9,11 +9,13 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { takeUntil } from 'rxjs';
 import { Subject } from 'rxjs';
-import {Client, PriceCompositionType, Project, ProjectsService, TaskType} from "../projects.service";
+import {PriceCompositionType, Project, ProjectsService, TaskType} from "../projects.service";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FuseConfirmationService} from "../../../../../@fuse/services/confirmation";
+import {AuthService} from "../../../../core/auth/auth.service";
+import {Client, ClientService} from "../../clients/client.service";
 
 export interface Attachment {
   fileName: string;
@@ -63,6 +65,8 @@ export class ProjectFormComponent implements OnInit
       private _formBuilder: FormBuilder,
       private _cdr: ChangeDetectorRef,
       private _projectsService: ProjectsService,
+      private _clientService: ClientService,
+      private _authService: AuthService,
       private _route: ActivatedRoute,
       private _router: Router,
       private _snackBar: MatSnackBar,
@@ -92,12 +96,21 @@ export class ProjectFormComponent implements OnInit
           this._cdr.markForCheck();
         });
 
-    this._projectsService.getClients()
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe((response) => {
-          this.clients = response;
-          this._cdr.markForCheck();
-        });
+    if (this._authService.isMaster) {
+      this._clientService.getAllClients()
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe((response) => {
+            this.clients = response;
+            this._cdr.markForCheck();
+          });
+    } else {
+      this._clientService.getAllClientsByCompany(this._authService.company.id)
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe((response) => {
+            this.clients = response;
+            this._cdr.markForCheck();
+          });
+    }
 
     this._route.paramMap.subscribe(params => {
       const id = params.get('projectId');
