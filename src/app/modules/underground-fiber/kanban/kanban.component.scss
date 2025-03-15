@@ -2,3 +2,13 @@
   max-height: 90vh;    // Evita que o modal ocupe mais que 90% da altura da tela
   overflow-y: auto;    // Cria rolagem vertical suave
 }
+
+.clickable-map {
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.clickable-map:hover {
+  background-color: rgba(0, 188, 212, 0.1); /* Fundo levemente ciano */
+}

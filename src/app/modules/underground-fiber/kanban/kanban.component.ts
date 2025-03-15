@@ -10,6 +10,7 @@ import {PercentPipe} from "@angular/common";
 import {CdkScrollable} from "@angular/cdk/scrolling";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthService} from "../../../core/auth/auth.service";
+import {FuseConfirmationService} from "../../../../@fuse/services/confirmation";
 
 class ScrumboardService {
 }
@@ -46,6 +47,7 @@ export class KanbanComponent implements OnInit, OnDestroy {
         private _projectsService: ProjectsService,
         private _authService: AuthService,
         private _router: Router,
+        private _fuseConfirmationService: FuseConfirmationService,
     ) {
     }
 
@@ -119,6 +121,53 @@ export class KanbanComponent implements OnInit, OnDestroy {
 
     redirectCreateProjectForm() {
         this._router.navigate(['/projects/create'])
+    }
+
+    onMapClick(event: MouseEvent, board: any): void {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log('Board', board);
+        const dialogRef = this._fuseConfirmationService.open({
+            title: 'Download attachment(s)!',
+            message: `Are you sure you want to download ${board.projectImages.length} attachment(s)?`,
+            icon: {
+                show: true,
+                name: "heroicons_outline:exclamation-triangle",
+                color: 'warning',
+            },
+            actions: {
+                confirm: {label: 'Yes', color: 'accent'},
+                cancel: {label: 'No'},
+            },
+            dismissible: true
+        });
+        dialogRef.afterClosed().subscribe((rs) => {
+            if (rs == "confirmed") {
+                this.downloadAllImages(board.projectImages)
+            }
+        });
+    }
+
+    downloadAllImages(images: any[]): void {
+        images.forEach(image => {
+            const byteCharacters = atob(image.data);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: image.fileType });
+            const url = window.URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = image.fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            window.URL.revokeObjectURL(url);
+        });
     }
 
 }
