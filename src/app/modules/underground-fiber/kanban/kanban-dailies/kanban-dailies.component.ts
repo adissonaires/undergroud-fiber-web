@@ -130,8 +130,14 @@ export class KanbanDailiesComponent implements OnInit, OnDestroy {
                 }
             ]
         };
+        this.getDailies();
+        // Initialize the list title form
+        this.listTitleForm = this._formBuilder.group({
+            title: [''],
+        });
+    }
 
-
+    private getDailies() {
         this._dailiesService.getAllDeliesByProjectId(this.projectId)
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(dailies => {
@@ -207,10 +213,6 @@ export class KanbanDailiesComponent implements OnInit, OnDestroy {
                     this._changeDetectorRef.markForCheck();
                 }
             });
-        // Initialize the list title form
-        this.listTitleForm = this._formBuilder.group({
-            title: [''],
-        });
     }
 
     /**
@@ -492,12 +494,7 @@ export class KanbanDailiesComponent implements OnInit, OnDestroy {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-                this.dailies.push(result);
-                this.doingDailies = this.dailies.filter(daily => daily.statusCard && daily.statusCard.toUpperCase() === 'DOING');
-                this.doneDailies = this.dailies.filter(daily => daily.statusCard && daily.statusCard.toUpperCase() === 'DONE');
-                this._changeDetectorRef.markForCheck();
-            }
+            this.getDailies();
         });
     }
 }
