@@ -166,12 +166,8 @@
                                             <!-- Due date -->
                                             @if (card.dueDate) {
                                                 <div
-                                                        class="text-secondary flex items-center rounded text-sm font-medium leading-5"
-                                                        [ngClass]="{
-                                                    'text-red-600': isOverdue(
-                                                        card.dueDate
-                                                    ),
-                                                }"
+                                                        class="text-white p-1 px-2 bg-amber flex items-center rounded-2xl text-sm font-medium leading-5"
+                                                        [ngClass]="[getDayOfWeekColor(card.dueDate)]"
                                                 >
                                                     <mat-icon
                                                             class="text-current icon-size-4"

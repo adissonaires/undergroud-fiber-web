@@ -162,9 +162,10 @@ export class KanbanDailiesComponent implements OnInit, OnDestroy {
                                     boardId: null
                                 },
                             ],
-                            dueDate: DateTime.now().toISO()
+                            dueDate: daily.createdAt
                         }));
-
+                    console.log("day-week>>", this.getDayOfWeekColor(doingCards[0].dueDate))
+                    console.log("DATA ISO", DateTime.now().toISO());
                     const doneCards = this.dailies
                         .filter(daily => daily.statusCard?.toUpperCase() === 'DONE')
                         .map(daily => ({
@@ -183,7 +184,7 @@ export class KanbanDailiesComponent implements OnInit, OnDestroy {
                                     boardId: null
                                 },
                             ],
-                            dueDate: DateTime.now().toISO()
+                            dueDate: daily.createdAt
                         }));
 
                     this.board = {
@@ -419,11 +420,13 @@ export class KanbanDailiesComponent implements OnInit, OnDestroy {
      *
      * @param date
      */
-    isOverdue(date: string): boolean {
-        return (
+    isOverdue(date: string): string {
+        if (
             DateTime.fromISO(date).startOf('day') <
             DateTime.now().startOf('day')
-        );
+        ) {
+            return 'text-red-600'
+        }
     }
 
     /**
@@ -496,5 +499,36 @@ export class KanbanDailiesComponent implements OnInit, OnDestroy {
         dialogRef.afterClosed().subscribe(result => {
             this.getDailies();
         });
+    }
+
+
+
+    getDayOfWeekColor(dateString: string){
+        const [year, month, day] = dateString.split('-').map(Number);
+        const date = new Date(year, month - 1, day); // O mês é zero-indexado
+
+        // Obtém o índice do dia da semana (0 = Sunday, 1 = Monday, etc.)
+        const dayOfWeek = date.getDay();
+
+        // Usa switch para retornar a cor associada ao dia da semana
+        switch (dayOfWeek) {
+            case 0: // Sunday
+                return 'bg-red-500';
+            case 1: // Monday
+                return 'bg-blue-700';
+            case 2: // Tuesday
+                return 'bg-green-700';
+            case 3: // Wednesday
+                return 'bg-purple-500';
+            case 4: // Thursday
+                return 'bg-amber-700';
+            case 5: // Friday
+                return 'bg-blue-500';
+            case 6: // Saturday
+                return 'bg-red-700';
+            default:
+                // Este caso nunca deve ocorrer, mas adicionamos para evitar erros
+                return '';
+        }
     }
 }
