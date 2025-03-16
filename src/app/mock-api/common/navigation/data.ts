@@ -7,6 +7,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:building-office-2',
         link: '/companies',
+        role: ['MASTER']
     },
     {
         id: 'client',
@@ -14,6 +15,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:user-group',
         link: '/clients',
+        role: ['MASTER','ADMINISTRATOR']
     },
     {
         id: 'projects',
@@ -21,6 +23,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:clipboard-document-check',
         link: '/projects',
+        role: ['MASTER', 'ADMINISTRATOR']
     },
     {
         id: 'kanban',
@@ -28,20 +31,26 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:view-columns',
         link: '/kanban',
+        role: ['MASTER', 'USER','ADMINISTRATOR']
+
     },
     {
         id: 'invoice',
         title: 'Invoice',
         type: 'basic',
         icon: 'heroicons_outline:calculator',
-        link: '/invoice'
+        link: '/invoice',
+        role: ['MASTER','ADMINISTRATOR']
+
     },
     {
         id: 'users',
         title: 'Users',
         type: 'basic',
         icon: 'heroicons_outline:user',
-        link: '/users'
+        link: '/users',
+        role: ['MASTER','ADMINISTRATOR']
+
     }
 ];
 export const compactNavigation: FuseNavigationItem[] = [
