@@ -23,7 +23,7 @@
                     <div class="textbox-vc" >
                         <p style="margin-bottom: 10px">VC</p>
                     </div>
-                    <h1 class="text-company" style="margin-bottom: 10px">VICAST COMMUNICATIONS, LLC</h1>
+                    <h1 class="text-company" style="margin-bottom: 10px">{{ this.invoicePreview?.companyName.toUpperCase() }}</h1>
                     <div class="textbox-invoice">
                         <p style="margin-bottom: 10px">Invoice</p>
                     </div>
@@ -31,10 +31,9 @@
 
                 <div class="container-infos" style="padding-top: 5.88px;">
                     <div class="invoice-left">
-                        <p>10101 W 87TH ST STE 105</p>
-                        <p>Overland Park KS 66212</p>
-                        <p>Phone (913) 388 - 6002</p>
-                        <p>invoice&#64;vicastxp.com</p>
+                        <p>{{ this.invoicePreview?.companyAdress }}</p>
+                        <p>Phone {{ this.invoicePreview?.companyPhone }}</p>
+                        <p>{{ this.invoicePreview?.companyEmail }}</p>
                     </div>
                     <div class="invoice-right">
                         <p><span class="text-bold">INVOICE #</span> {{ this.invoicePreview?.invoiceNumber }}</p>
@@ -92,7 +91,7 @@
                         @for (item of this.invoicePreview?.invoiceItems;let idx = $index; track trackByFn(idx, item)){
                             <tr style="height: 9.41pt;">
                                 <td class="tr-dados" style="width: 27.65pt;">
-                                    <p class="s4" style="padding-top: 2.35pt; text-align: center;margin-bottom: 10px">{{ item.taskType || 'N/A' }}</p>
+                                    <p class="s4" style="padding-top: 2.35pt; text-align: center;margin-bottom: 10px">{{ item.code || 'N/A' }}</p>
                                 </td>
                                 <td class="tr-dados" style="width: 144.12pt;">
                                     <p class="s5" style="padding-top: 1.18pt; padding-left: 0.59pt; text-align: center;margin-bottom: 10px">{{ item.taskName }}</p>

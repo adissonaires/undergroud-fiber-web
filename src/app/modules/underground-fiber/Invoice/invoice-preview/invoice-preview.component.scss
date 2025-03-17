@@ -183,7 +183,7 @@ tbody {
   margin: 0;
   font-size: 20pt; // 9.41pt x 1.7
   padding: 0 20px;
-  text-align: left;
+  text-align: center;
   flex: 1;
 }
 
@@ -259,7 +259,6 @@ tbody {
   bottom: 20px; // (10px x 1.7) ajustado para 20px conforme o original
   text-align: center;
   width: auto;
-  position: absolute;
   left: 0;
   right: 1.5cm;
 }

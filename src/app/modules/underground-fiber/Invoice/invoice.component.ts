@@ -9,6 +9,7 @@ import {InvoicePreviewComponent} from "./invoice-preview/invoice-preview.compone
 import {MatDialog} from "@angular/material/dialog";
 import {MatTooltip} from "@angular/material/tooltip";
 import {FormsModule} from "@angular/forms";
+import {AuthService} from "../../../core/auth/auth.service";
 
 @Component({
   selector: 'app-invoice',
@@ -33,6 +34,7 @@ export class InvoiceComponent implements OnInit {
       private _activatedRoute: ActivatedRoute,
       private _fuseConfirmationService: FuseConfirmationService,
       private _dialog: MatDialog,
+      private _authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -67,7 +69,7 @@ export class InvoiceComponent implements OnInit {
   }
 
   previewInvoice(invoice: Invoice): void {
-    this._invoicesService.getInvoicePreview(invoice.id).subscribe({
+    this._invoicesService.getInvoicePreview(invoice.id, this._authService.company.id).subscribe({
       next: response => {
         let data = {
           invoice: response,

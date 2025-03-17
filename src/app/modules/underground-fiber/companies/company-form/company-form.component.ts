@@ -1,11 +1,13 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Subject, takeUntil} from 'rxjs';
 import {Company, CompanyService} from "../company.service";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {ActivatedRoute, Router} from "@angular/router";
+import {NgxMaskDirective, NgxMaskPipe, provideNgxMask} from "ngx-mask";
+import {FuseConfirmationService} from "../../../../../@fuse/services/confirmation";
 
 @Component({
     selector: 'company-form',
@@ -15,7 +17,10 @@ import {ActivatedRoute, Router} from "@angular/router";
         ReactiveFormsModule,
         MatExpansionModule,
         MatSnackBarModule,
+        NgxMaskDirective,
+        NgxMaskPipe,
     ],
+    providers: [provideNgxMask()],
     templateUrl: './company-form.component.html',
     styleUrls: ['./company-form.component.scss'],
     encapsulation: ViewEncapsulation.None,
@@ -38,7 +43,8 @@ export class CompanyFormComponent implements OnInit {
         private _companyService: CompanyService,
         private _route: ActivatedRoute,
         private _router: Router,
-        private _snackBar: MatSnackBar
+        private _snackBar: MatSnackBar,
+        private _fuseConfirmationService: FuseConfirmationService,
     ) {
     }
 
@@ -71,11 +77,11 @@ export class CompanyFormComponent implements OnInit {
 
     private createCompanyForm(): void {
         this.companyForm = this._formBuilder.group({
-            name: [''],
-            address: [''],
-            email: [''],
-            phone: [''],
-            status: [''],
+            name: ['', [Validators.required]],
+            address: ['', [Validators.required]],
+            email: ['', [Validators.required]],
+            phone: ['', [Validators.required]],
+            status: ['', [Validators.required]],
         });
     }
 
@@ -88,6 +94,20 @@ export class CompanyFormComponent implements OnInit {
     }
 
     createCompany(): void {
+        if (this.companyForm.invalid) {
+            this.companyForm.markAllAsTouched();
+
+            this._fuseConfirmationService.open({
+                title: 'Required fields missing',
+                message: 'Please fill out all required fields before saving.',
+                actions: {
+                    confirm: { label: 'OK', color: 'primary' },
+                    cancel: { show: false }
+                },
+                dismissible: true
+            });
+            return;
+        }
         const formValues = this.companyForm.value;
 
         const payload: Company = {
@@ -123,6 +143,10 @@ export class CompanyFormComponent implements OnInit {
                     }
                 });
         }
+    }
+
+    fieldInvalid(fildName: string): boolean {
+        return this.companyForm.get(fildName)?.invalid && this.companyForm.get(fildName)?.touched
     }
 }
 

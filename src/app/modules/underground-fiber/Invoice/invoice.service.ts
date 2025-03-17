@@ -42,7 +42,7 @@ export class InvoiceService {
   }
 
 
-  getInvoicePreview(invoiceId: number): Observable<any> {
-    return this._httpClient.get<any>(`${this._invoicesUrl}/${invoiceId}/preview`);
+  getInvoicePreview(invoiceId: number, companyId: number): Observable<any> {
+    return this._httpClient.get<any>(`${this._invoicesUrl}/${invoiceId}/${companyId}/preview`);
   }
 }
