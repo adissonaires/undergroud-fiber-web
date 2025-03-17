@@ -1,17 +1,28 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
 import {NgClass} from "@angular/common";
 import {User, UsersService} from "../users.service";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, NgForm, NgModel, ReactiveFormsModule} from "@angular/forms";
 import {Company, CompanyService} from "../../companies/company.service";
 import {AuthService} from "../../../../core/auth/auth.service";
+import {FuseConfirmationService} from "../../../../../@fuse/services/confirmation";
+import {NgxMaskDirective, provideNgxMask} from "ngx-mask";
 
 @Component({
     selector: 'app-users',
     imports: [
         NgClass,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        NgxMaskDirective
     ],
+    providers:[provideNgxMask()],
     templateUrl: './users.component.html',
     standalone: true,
     styleUrl: './users.component.scss',
@@ -33,18 +44,23 @@ export class UsersComponent implements OnInit {
     // Objeto para o formulário (create/edit)
     formUser: User = {
         id: null,
-        name: '',
+        firstName: '',
+        lastName: '',
         email: '',
+        phone:'',
         profile: 'USER',
         companyId: null,
         status: 'ACTIVE'
     };
 
+    @ViewChild('createEditUserForm') createEditUserForm!: NgForm;
+
 
     constructor(private _usersService: UsersService,
                 private _authService: AuthService,
                 private _companyService: CompanyService,
-                private _cdr: ChangeDetectorRef) {
+                private _cdr: ChangeDetectorRef,
+                private _fuseConfirmationService: FuseConfirmationService,) {
     }
 
     ngOnInit(): void {
@@ -88,8 +104,10 @@ export class UsersComponent implements OnInit {
         this.isEditMode = false;
         this.formUser = {
             id: null,
-            name: '',
+            firstName: '',
+            lastName: '',
             email: '',
+            phone: '',
             profile: 'USER',
             companyId: null,
             status: 'ACTIVE'
@@ -122,6 +140,23 @@ export class UsersComponent implements OnInit {
      * Salva (create/update) e fecha modal
      */
     saveUser(): void {
+        if (this.createEditUserForm.invalid) {
+            Object.keys(this.createEditUserForm.controls).forEach(field => {
+                const control = this.createEditUserForm.controls[field];
+                control.markAsTouched();
+            });
+
+            this._fuseConfirmationService.open({
+                title: 'Required fields missing',
+                message: 'Please fill out all required fields before saving.',
+                actions: {
+                    confirm: { label: 'OK', color: 'primary' },
+                    cancel: { show: false }
+                },
+                dismissible: true
+            });
+            return;
+        }
         if (this.isEditMode && this.formUser.id) {
             // Editar (PUT /users/{id})
             this._usersService.updateUser(this.formUser.id, this.formUser)
@@ -197,5 +232,9 @@ export class UsersComponent implements OnInit {
     confirmNo(): void {
         this.showConfirmModal = false;
         this.userToChange = null;
+    }
+
+    fieldInvalid(model: NgModel){
+        return model.invalid && model.touched
     }
 }
