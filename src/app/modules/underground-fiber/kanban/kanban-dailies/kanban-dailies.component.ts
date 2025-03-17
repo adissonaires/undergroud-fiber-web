@@ -164,8 +164,6 @@ export class KanbanDailiesComponent implements OnInit, OnDestroy {
                             ],
                             dueDate: daily.createdAt
                         }));
-                    console.log("day-week>>", this.getDayOfWeekColor(doingCards[0].dueDate))
-                    console.log("DATA ISO", DateTime.now().toISO());
                     const doneCards = this.dailies
                         .filter(daily => daily.statusCard?.toUpperCase() === 'DONE')
                         .map(daily => ({
