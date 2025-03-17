@@ -5,8 +5,10 @@ import {Observable} from 'rxjs';
 
 export interface User {
     id: number;
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
+    phone: string;
     profile: 'ADMINISTRATOR' | 'USER';
     companyId: number;
     status: 'ACTIVE' | 'INACTIVE';
